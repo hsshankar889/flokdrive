@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FolkDrive - Sales & Process Efficiency</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Ensures the Roboto font is applied globally */
+        body {
+            font-family: 'Roboto', sans-serif;
+            min-height: 150vh; /* Ensures content is long enough to scroll for demonstration */
+        }
+        /* Custom styles for feature card text color change on hover */
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-radius 0.4s ease; /* Added border-radius to transition */
+        }
+
+        .feature-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background-color: var(--primary-color); /* Change background on hover to vibrant green */
+            border-radius: 5px 40px 5px 40px; /* Morphing border-radius for an organic shape */
+        }
+        
+        .feature-card:hover h3,
+        .feature-card:hover p {
+            color: white; /* Change text to white on hover */
+        }
+        
+        /* Define a consistent color palette (Green & Orange) and general styles */
+        :root {
+            --primary-color: #4CAF50;          /* Vibrant Green */
+            --secondary-color: #FF9800;        /* Vibrant Orange */
+            --dark-green: #2E7D32;             /* Deep Green for backgrounds/text */
+            --light-green: #E8F5E9;            /* Very Light Green/Off-white for page background */
+            --white-color: #FFFFFF;            /* Pure white */
+            --gray-800-text: #2D3748;          /* Tailwind's gray-800 equivalent for general text on light backgrounds */
+
+            /* Additional helper variables based on theme */
+            --primary-dark-color: #388E3C;     /* Slightly darker primary green */
+            --secondary-dark-color: #FB8C00;   /* Slightly darker secondary orange */
+            --secondary-translucent-color: rgba(255, 152, 0, 0.2); /* Translucent Vibrant Orange */
+            --neutral-dark-bg: #1B5E20;        /* Very dark green for footer */
+            --primary-translucent-color: rgba(76, 175, 80, 0.8); /* Translucent Vibrant Green */
+        }
+
+        /* Header Specific Styles */
+        header {
+            background-color: var(--white-color); /* White background for navbar */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed; /* Changed to fixed for slide-down animation */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            color: var(--gray-800-text); /* Dark text color for navbar */
+            opacity: 0; /* Initial state for animation */
+            transform: translateY(-80px); /* Start off-screen top */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Animation transition */
+        }
+        /* Active state for header animation */
+        header.header-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header container for responsiveness */
+        .header-container {
+            display: flex;
+            flex-direction: column; /* Stacks items vertically on mobile */
+            align-items: center;
+            padding: 1rem 1rem;
+        }
+        @media (min-width: 768px) {
+            .header-container {
+                flex-direction: row; /* Horizontal on desktop */
+                justify-content: space-between;
+                padding: 1rem 20px;
+            }
+        }
+        .header-container img {
+            height: 60px; /* Larger logo for better visibility */
+            width: auto;
+            margin-bottom: 1rem; /* Space below logo on mobile */
+        }
+        @media (min-width: 768px) {
+            .header-container img {
+                margin-bottom: 0; /* Remove margin on desktop */
+            }
+        }
+        nav ul {
+            display: flex;
+            flex-wrap: wrap; /* Allows items to wrap on smaller screens */
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav li {
+            margin: 0.5rem 0.75rem;
+        }
+        nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-800-text); /* Dark text color for nav links */
+            transition: all 0.3s ease;
+            white-space: nowrap; /* Prevents text from breaking lines */
+        }
+        nav a:hover {
+            background-color: var(--light-green); /* Light green background on hover */
+            color: var(--primary-dark-color); /* Darker green text on hover */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        nav a.active {
+            background-color: var(--primary-color); /* Vibrant green active link background */
+            color: var(--white-color); /* White text for active link */
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3); /* Green shadow for active link */
+            pointer-events: none; /* Disable click on active link */
+        }
+        nav a.active:hover { /* Override hover for active link */
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+
+        /* Footer Specific Styles */
+        footer {
+            background-color: var(--neutral-dark-bg); /* Very dark green for footer */
+            color: var(--light-green); /* Light text on dark background */
+            padding: 3rem 1rem 1rem;
+            margin-top: auto;
+            opacity: 0; /* Initial state for animation */
+            transform: translateY(20px); /* Start slightly below */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Animation transition */
+        }
+        /* Active state for footer animation */
+        footer.footer-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Responsive grid */
+            gap: 2rem;
+            margin-bottom: 2rem;
+            max-width: 1200px;
+            margin-left: auto; margin-right: auto;
+            padding: 0 20px; /* Add padding to footer content */
+        }
+        .footer-links p {
+            color: var(--light-green); /* Light text for footer paragraphs */
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+        a.footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--white-color);
+            display: inline-block;
+            text-decoration: none;
+        }
+        a.footer-logo span {
+            color: var(--secondary-color); /* Orange for 'Drive' in footer logo */
+        }
+        .footer-links h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            color: var(--white-color);
+            font-weight: 600;
+        }
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+        footer p {
+            margin: 0;
+        }
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        .footer-links ul a {
+            color: var(--light-green); /* Light green for footer links */
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .footer-links ul a:hover {
+            color: var(--secondary-color); /* Orange on hover for footer links */
+            text-decoration: underline;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .social-icons {
+                justify-content: flex-start;
+            }
+            .footer-content > div {
+                text-align: left;
+            }
+        }
+        .social-icons a {
+            font-size: 1.5rem;
+            color: var(--white-color);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: var(--secondary-color); /* Orange on hover for social icons */
+            transform: translateY(-3px);
+            text-decoration: none;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--light-green); /* Light green for copyright text */
+            font-size: 0.9rem;
+        }
+        .copyright p {
+            margin: 0;
+        }
+        /* Custom microinteraction for feature card icons */
+        .feature-icon i {
+            transition: transform 0.3s ease-in-out;
+        }
+        .feature-card:hover .feature-icon i {
+            transform: rotate(10deg) scale(1.2);
+        }
+
+        /* --- Animations --- */
+        /* Preloader styles */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--white-color); /* Changed to white */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 1; /* Start visible */
+            transition: opacity 0.7s ease-out; /* Fade out effect */
+        }
+
+        /* Spinner inside preloader */
+        #preloader .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3); /* Lighter border for background */
+            border-top: 4px solid var(--primary-color); /* The spinning part (Vibrant Green) */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Initial states for content animation (off-screen or hidden) */
+        header,
+        .welcome-message, /* This will now animate in with its background */
+        .image-slider,
+        .main-content-section,
+        .media-container-video,
+        .fixed-action-btn,
+        footer {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        /* Active states for content animation */
+        header.header-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .welcome-message.content-active,
+        .image-slider.content-active,
+        .main-content-section.content-active,
+        .media-container-video.content-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fixed-action-btn.fixed-btn-active {
+            opacity: 1;
+            transform: translateY(0); /* Changed from translateX to translateY for consistency */
+        }
+        footer.footer-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Keyframes for the continuous pop-up effect */
+        @keyframes continuousPopUpAnimation {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02); /* Subtle pop, adjusted scale for less intensity */
+            }
+        }
+
+        /* New styles for the welcome-message container to have the gradient background */
+        /* Update this existing rule for .welcome-message */
+        .welcome-message {
+            text-align: center;
+            margin-bottom: 8px; /* Existing margin-bottom */
+            margin-top: 2rem; /* Add this line for the gap, adjust value as needed */
+
+            /* Apply the gradient background directly to the container */
+            background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+            padding: 2rem 1rem; /* Add padding to give the gradient some space */
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+
+            /* The initial opacity and transform are already set above for content-active */
+        }
+
+        /* Style for the h1 INSIDE the welcome-message */
+        .welcome-message h1 {
+            /* Set the text color to white or a color that stands out on the gradient */
+            color: var(--white-color); /* Now the text is white */
+            
+            /* Remove previous gradient text properties */
+            -webkit-text-fill-color: unset; /* Revert */
+            display: block; /* Ensure it behaves as a block element */
+
+            /* This ensures the text itself also fades in */
+            opacity: 0; /* Start transparent for the h1 text */
+            transition: opacity 0.5s ease-out; /* Smooth fade-in for the text */
+        }
+
+        /* When the welcome-message container is active, make the h1 text visible and animate */
+        .welcome-message.content-active h1 {
+            opacity: 1; /* Make h1 text visible */
+            animation: continuousPopUpAnimation 3s ease-in-out infinite; /* Apply continuous pop animation to the text */
+        }
+
+
+        /* Ensure preloader hides scrollbar initially */
+        body.no-scroll {
+            overflow: hidden;
+        }
+        /* Image Slider styles */
+        .slide-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            /* Ensure this is set to 'cover' */
+            object-fit: cover; /* This will make the image fill the entire slide box */
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slide-image.active {
+            opacity: 1;
+        }
+
+        .slider-dots .dot.active {
+            background-color: var(--secondary-color); /* Changed to use variable */
+            width: 0.75rem; /* w-3 */
+            height: 0.75rem; /* h-3 */
+        }
+
+        /* Fixed action buttons styling */
+        .fixed-action-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex; /* Changed from none to flex */
+            flex-direction: column;
+            gap: 10px;
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(20px); /* Changed from translateX to translateY for consistency */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .action-button {
+            background-color: var(--secondary-color); /* Changed to orange variable */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: var(--secondary-dark-color); /* Darker orange on hover */
+            transform: scale(1.1);
+        }
+
+        /* Specific styles for scroll buttons to also be orange */
+        .scroll-button {
+            background-color: var(--secondary-color); /* Changed to use variable */
+        }
+
+        .scroll-button:hover {
+            background-color: var(--secondary-dark-color); /* Darker orange on hover */
+        }
+
+        /* WhatsApp button specific style */
+        .whatsapp-button {
+            background-color: #25D366; /* WhatsApp green */
+        }
+        .whatsapp-button:hover {
+            background-color: #1DA851; /* Darker green on hover */
+        }
+
+        /* Custom microinteraction for footer link icons */
+        .footer-links ul a i {
+            transition: transform 0.3s ease-in-out;
+        }
+        .footer-links ul a:hover i {
+            transform: translateX(4px);
+        }
+
+        /* Footer social icons - currently commented out in HTML */
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-light-green flex flex-col min-h-screen no-scroll">
+    <div id="preloader" class="fixed inset-0 bg-white flex items-center justify-center z-[1000]">
+        <div class="flex flex-col items-center">
+            <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="h-20 w-auto mb-4 animate-pulse rounded-lg">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <header class="bg-white text-gray-800 shadow-lg fixed top-0 left-0 w-full z-50">
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between">
+            <a href="index.html" class="mb-4 md:mb-0">
+                <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="rounded-lg h-12 w-auto">
+            </a>
+            <nav>
+                <ul class="flex flex-wrap justify-center md:space-x-6 space-x-2 text-sm md:text-base">
+                    <li><a href="./index.html" class="flex items-center space-x-1 bg-green-500 text-white p-2 rounded-md shadow-md active"><i class="fas fa-home"></i> <span class="hidden sm:inline">Home</span></a></li>
+                    <li><a href="./services.html" class="flex items-center space-x-1 text-gray-800 hover:bg-green-100 hover:text-green-700 transition-colors duration-300 p-2 rounded-md"><i class="fas fa-handshake"></i> <span class="hidden sm:inline">Services</span></a></li>
+                    <li><a href="./methodology.html" class="flex items-center space-x-1 text-gray-800 hover:bg-green-100 hover:text-green-700 transition-colors duration-300 p-2 rounded-md"><i class="fas fa-rocket"></i> <span class="hidden sm:inline">Methodology</span></a></li>
+                    <li><a href="./about.html" class="flex items-center space-x-1 text-gray-800 hover:bg-green-100 hover:text-green-700 transition-colors duration-300 p-2 rounded-md"><i class="fas fa-info-circle"></i> <span class="hidden sm:inline">About Us</span></a></li>
+                    <li><a href="./contact.html" class="flex items-center space-x-1 text-gray-800 hover:bg-green-100 hover:text-green-700 transition-colors duration-300 p-2 rounded-md"><i class="fas fa-envelope"></i> <span class="hidden sm:inline">Contact</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="flex-grow py-12 bg-light-green pt-[72px]">
+        <div class="welcome-message container mx-auto px-4"> 
+            <h2 class="text-3xl md:text-5xl font-extrabold drop-shadow-lg leading-tight md:leading-snug">Your Partner in Sales & Process Efficiency</h2>
+        </div>
+
+        <div class="mb-12 image-slider w-full container mx-auto px-4">
+            <div class="relative w-full min-h-[50vh] md:min-h-[70vh] overflow-hidden shadow-2xl rounded-xl">
+                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Sales Acceleration" class="slide-image active" onerror="this.src='https://placehold.co/1000x450/4CAF50/FFFFFF?text=Sales+Acceleration';">
+                <img src="https://img.freepik.com/premium-photo/achievement-business-goal-success-concept_31965-11573.jpg" alt="Growth Achievement" class="slide-image" onerror="this.src='https://placehold.co/1000x450/FF9800/FFFFFF?text=Growth+Achievement';">
+                <img src="https://sitescdn.wearevennture.co.uk/public/paretousa/mediahub/sales%20training-deb753bf-888c-4d37-8db6-85a0c56e3761.jpg" alt="Sales Training" class="slide-image" onerror="this.src='https://placehold.co/1000x450/4CAF50/FFFFFF?text=Sales+Training';">
+                <img src="https://static.vecteezy.com/system/resources/previews/022/536/331/original/pdca-or-plan-do-check-act-is-an-iterative-design-and-management-method-used-in-business-for-the-control-and-continuous-improvement-of-processes-and-products-vector.jpg" class="slide-image" onerror="this.src='https://placehold.co/1000x450/FF9800/FFFFFF?text=Process+Efficiency';">
+
+                <div class="slider-nav absolute inset-y-0 w-full flex justify-between items-center px-4 z-10">
+                    <button class="arrow prev-arrow bg-[var(--secondary-color)] text-white border-none p-3 rounded-full cursor-pointer text-2xl transition-colors transition-transform duration-300 hover:bg-[var(--secondary-dark-color)] hover:scale-110 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50" aria-label="Previous Slide"><i class="fas fa-chevron-left"></i></button>
+                    <button class="arrow next-arrow bg-[var(--secondary-color)] text-white border-none p-3 rounded-full cursor-pointer text-2xl transition-colors transition-transform duration-300 hover:bg-[var(--secondary-dark-color)] hover:scale-110 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50" aria-label="Next Slide"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="slider-dots absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                    <span class="dot w-3 h-3 bg-white/50 rounded-full cursor-pointer transition-all duration-300 hover:scale-125 active" aria-label="Go to Slide 1"></span>
+                    <span class="dot w-3 h-3 bg-white/50 rounded-full cursor-pointer transition-all duration-300 hover:scale-125" aria-label="Go to Slide 2"></span>
+                    <span class="dot w-3 h-3 bg-white/50 rounded-full cursor-pointer transition-all duration-300 hover:scale-125" aria-label="Go to Slide 3"></span>
+                    <span class="dot w-3 h-3 bg-white/50 rounded-full cursor-pointer transition-all duration-300 hover:scale-125" aria-label="Go to Slide 4"></span>
+                </div>
+            </div>
+        </div>
+        
+        <section class="main-content-section container mx-auto px-4 py-8 md:py-12 bg-white rounded-xl shadow-2xl">
+            <div class="text-center mb-10 relative pb-4 after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:w-20 after:h-1 after:bg-orange-500 after:rounded-full">
+                <h2 class="text-green-900 text-3xl md:text-4xl font-extrabold mb-4 drop-shadow-md">Our Awesome Features</h2>
+                <p class="text-lg md:text-xl text-gray-600">Discover what makes us different</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-card bg-green-50 p-6 rounded-xl shadow-md border-l-4 border-orange-600 text-center flex flex-col items-center justify-center transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-orange-600 group">
+                    <div class="feature-icon w-20 h-20 text-3xl flex items-center justify-center rounded-full mx-auto mb-6 shadow-lg text-white bg-orange-600">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-green-800 group-hover:text-white">Sales process awareness</h3>
+                    <p class="leading-relaxed text-gray-700 group-hover:text-white">Understanding steps from lead generation to closing deals, enabling optimized sales strategies, enhanced customer engagement, and increased conversion&nbsp;rates.</p>
+                </div>
+                <div class="feature-card bg-green-50 p-6 rounded-xl shadow-md border-l-4 border-orange-600 text-center flex flex-col items-center justify-center transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-orange-500 group">
+                    <div class="feature-icon w-20 h-20 text-3xl flex items-center justify-center rounded-full mx-auto mb-6 shadow-lg text-white bg-orange-500">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-green-800 group-hover:text-white">Strategy and implementation</h3>
+                    <p class="leading-relaxed text-gray-700 group-hover:text-white">Folkdrive's strategic approach empowers businesses to achieve goals. By developing clear plans and executing them effectively, organizations drive growth, improve efficiency, and enhance customer&nbsp;satisfaction.</p>
+                </div>
+                <div class="feature-card bg-green-50 p-6 rounded-xl shadow-md border-l-4 border-orange-600 text-center flex flex-col items-center justify-center transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-orange-700 group">
+                    <div class="feature-icon w-20 h-20 text-3xl flex items-center justify-center rounded-full mx-auto mb-6 shadow-lg text-white bg-orange-700">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-green-800 group-hover:text-white">Evaluation and tailoring</h3>
+                    <p class="leading-relaxed text-gray-700 group-hover:text-white">Folkdrive's expertise in evaluation and tailoring enables businesses to refine their strategies and tailor solutions to meet specific needs. Through thorough assessments and customized approaches, Folkdrive helps organizations optimize performance, enhance customer satisfaction, and&nbsp;drive&nbsp;growth</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div class="text-center my-12 media-container-video">
+        <div class="bg-green-900 min-h-[250px] md:min-h-[350px] aspect-video max-w-4xl mx-auto flex items-center justify-center rounded-xl shadow-2xl overflow-hidden">
+            <video src="./7947507-hd_1920_1080_30fps.mp4" autoplay loop muted playsinline class="w-full h-full object-cover rounded-xl" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"></video>
+            <div class="text-green-100 text-lg p-4" style="display:none;">Video content coming soon!</div>
+        </div>
+    </div>
+
+    <div class="fixed-action-btn">
+        <button id="scroll-to-top" class="action-button scroll-button" aria-label="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button id="scroll-to-bottom" class="action-button scroll-button" aria-label="Scroll to Bottom">
+            <i class="fas fa-arrow-down"></i>
+        </button>
+        <a href="https://wa.me/919916245531" target="_blank" class="action-button whatsapp-button" aria-label="Chat on WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <footer class="bg-[#1B5E20] text-white py-10 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
+                <div>
+                    <a href="index.html" class="text-3xl font-extrabold text-[var(--primary-green)] hover:text-[var(--darker-green)] transition-colors duration-300">Folk<span class="text-[var(--primary-orange)]">drive</span></a>
+                    <p class="mt-4 text-sm leading-relaxed text-green-200">Empowering Sales <br>Teams unlocks their full potential, enabling them to drive results and&nbsp;exceed&nbsp;targets.</p>
+                    <!-- <div class="social-icons mt-4 justify-center md:justify-start">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div> -->
+                </div>
+                <div>
+                    <h4 class="font-bold text-xl mb-4 text-white">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="./about.html" class="flex items-center justify-center md:justify-start space-x-2 text-green-200 hover:text-white transition-colors duration-300"><i class="fas fa-info-circle"></i> <span>About Us</span></a></li>
+                        <li><a href="./services.html" class="flex items-center justify-center md:justify-start space-x-2 text-green-200 hover:text-white transition-colors duration-300"><i class="fas fa-handshake"></i> <span>Services</span></a></li>
+                        <li><a href="./methodology.html" class="flex items-center justify-center md:justify-start space-x-2 text-green-200 hover:text-white transition-colors duration-300"><i class="fas fa-rocket"></i> <span>Methodology</span></a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-xl mb-4 text-white">Contact</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mailto:info@folkdrive.com" class="flex items-center justify-center md:justify-start space-x-2 text-green-200 hover:text-white transition-colors duration-300"><i class="fas fa-envelope"></i> <span>info@folkdrive.com</span></a></li>
+                        <li><a href="tel:+919916245531" class="flex items-center justify-center md:justify-start space-x-2 text-green-200 hover:text-white transition-colors duration-300"><i class="fas fa-phone"></i> <span>+919916245531</span></a></li>
+                        <li><a href="./contact.html" class="flex items-center justify-center md:justify-start space-x-2 text-green-200 hover:text-white transition-colors duration-300"><i class="fas fa-address-book"></i> <span>Contact Form</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center text-sm border-t border-green-700 pt-6">
+                <p>&copy; <span id="currentYear"></span> Folkdrive. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for Image Slider
+        const slides = document.querySelectorAll('.slide-image');
+        const dots = document.querySelectorAll('.dot');
+        const prevArrow = document.querySelector('.prev-arrow');
+        const nextArrow = document.querySelector('.next-arrow');
+        let currentSlide = 0;
+        let slideInterval;
+
+        /**
+         * Initializes the slider by setting the active slide and dot.
+         * @param {number} index - The index of the slide to show.
+         */
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+
+            dots.forEach((dot, i) => {
+                dot.classList.remove('active');
+                if (i === index) {
+                    dot.classList.add('active');
+                }
+            });
+            currentSlide = index;
+        }
+
+        /**
+         * Moves to the next slide in the slider.
+         */
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        /**
+         * Moves to the previous slide in the slider.
+         */
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        /**
+         * Starts the automatic slide show.
+         */
+        function startSlider() {
+            stopSlider(); // Clear any existing interval before starting a new one
+            slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        }
+
+        /**
+         * Stops the automatic slide show.
+         */
+        function stopSlider() {
+            clearInterval(slideInterval);
+        }
+
+        // Event listeners for slider controls
+        nextArrow.addEventListener('click', () => {
+            stopSlider();
+            nextSlide();
+            startSlider();
+        });
+        prevArrow.addEventListener('click', () => {
+            stopSlider();
+            prevSlide();
+            startSlider();
+        });
+
+        // Event listeners for dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                stopSlider();
+                showSlide(index);
+                startSlider();
+            });
+        });
+
+        // Initialize slider on load
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlide(currentSlide);
+            startSlider();
+
+            // Preloader logic
+            const preloader = document.getElementById('preloader');
+            const body = document.body;
+
+            // Hide preloader and show content after a delay
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                body.classList.remove('no-scroll'); // Re-enable scrolling
+
+                // Add active classes to trigger animations for main content
+                document.querySelector('header').classList.add('header-active');
+                document.querySelector('.welcome-message').classList.add('content-active');
+                document.querySelector('.image-slider').classList.add('content-active');
+                document.querySelector('.main-content-section').classList.add('content-active');
+                document.querySelector('.media-container-video').classList.add('content-active');
+                document.querySelector('.fixed-action-btn').classList.add('fixed-btn-active');
+                document.querySelector('footer').classList.add('footer-active');
+
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 700); // Matches the opacity transition duration
+            }, 1000); // Keep preloader for 1 second
+
+            // Update current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // Scroll to Top/Bottom buttons
+            const scrollToTopBtn = document.getElementById('scroll-to-top');
+            const scrollToBottomBtn = document.getElementById('scroll-to-bottom');
+
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            scrollToBottomBtn.addEventListener('click', () => {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            });
+
+            // Show/hide scroll buttons based on scroll position
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 200) {
+                    scrollToTopBtn.style.display = 'flex';
+                } else {
+                    scrollToTopBtn.style.display = 'none';
+                }
+                // Check if near bottom to hide scroll-to-bottom
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
+                    scrollToBottomBtn.style.display = 'none';
+                } else {
+                    scrollToBottomBtn.style.display = 'flex';
+                }
+            });
+
+            // Initial check for scroll buttons display
+            window.dispatchEvent(new Event('scroll'));
+        });
+    </script>
+</body>
+</html>

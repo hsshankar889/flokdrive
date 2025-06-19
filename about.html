@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Folkdrive</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Ensures the Roboto font is applied globally */
+        body {
+            font-family: 'Roboto', sans-serif;
+            min-height: 150vh; /* Ensures content is long enough to scroll for demonstration */
+            overflow: hidden; /* Hide scroll during initial animation */
+        }
+        /* Custom styles for feature card text color change on hover */
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-radius 0.4s ease; /* Added border-radius to transition */
+        }
+
+        .feature-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background-color: var(--primary-color); /* Change background on hover to vibrant green */
+            border-radius: 5px 40px 5px 40px; /* Morphing border-radius for an organic shape */
+        }
+        
+        .feature-card:hover h3,
+        .feature-card:hover p {
+            color: white; /* Change text to white on hover */
+        }
+        
+        /* Define a consistent color palette (Green & Orange) and general styles */
+        :root {
+            --primary-color: #4CAF50;          /* Vibrant Green */
+            --secondary-color: #FF9800;        /* Vibrant Orange */
+            --dark-green: #2E7D32;             /* Deep Green for backgrounds/text */
+            --light-green: #E8F5E9;            /* Very Light Green/Off-white for page background */
+            --white-color: #FFFFFF;            /* Pure white */
+            --gray-800-text: #2D3748;          /* Tailwind's gray-800 equivalent for general text on light backgrounds */
+
+            /* Additional helper variables based on theme */
+            --primary-dark-color: #388E3C;     /* Slightly darker primary green */
+            --secondary-dark-color: #FB8C00;   /* Slightly darker secondary orange */
+            --secondary-translucent-color: rgba(255, 152, 0, 0.2); /* Translucent Vibrant Orange */
+            --neutral-dark-bg: #1B5E20;        /* Very dark green for footer */
+            --primary-translucent-color: rgba(76, 175, 80, 0.8); /* Translucent Vibrant Green */
+        }
+
+        /* Header Specific Styles */
+        header {
+            background-color: var(--white-color); /* White background for navbar */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed; /* Changed to fixed for slide-down animation */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            color: var(--gray-800-text); /* Dark text color for navbar */
+            opacity: 0; /* Initial state for animation */
+            transform: translateY(-80px); /* Start off-screen top */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Animation transition */
+        }
+        /* Active state for header animation */
+        header.header-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 1rem;
+        }
+        @media (min-width: 768px) {
+            .header-container {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 1rem 20px;
+            }
+        }
+        .header-container img {
+            height: 60px;
+            width: auto;
+            margin-bottom: 1rem;
+        }
+        @media (min-width: 768px) {
+            .header-container img {
+                margin-bottom: 0;
+            }
+        }
+        nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav li {
+            margin: 0.5rem 0.75rem;
+        }
+        nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-800-text); /* Dark text color for nav links */
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        nav a:hover {
+            background-color: var(--light-green); /* Light green background on hover */
+            color: var(--primary-dark-color); /* Darker green text on hover */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        nav a.active {
+            background-color: var(--primary-color); /* Vibrant green active link background */
+            color: var(--white-color); /* White text for active link */
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3); /* Green shadow for active link */
+            pointer-events: none; /* Disable click on active link */
+        }
+        nav a.active:hover { /* Override hover for active link */
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: var(--neutral-dark-bg); /* Very dark green for footer */
+            color: var(--light-green); /* Light text on dark background */
+            padding: 3rem 1rem 1rem;
+            margin-top: auto;
+            opacity: 0; /* Initial state for animation */
+            transform: translateY(20px); /* Start slightly below */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Animation transition */
+        }
+        /* Active state for footer animation */
+        footer.footer-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            max-width: 1200px;
+            margin-left: auto; margin-right: auto;
+            padding: 0 20px; /* Add padding to footer content */
+        }
+        .footer-links p {
+            color: var(--light-green); /* Light text for footer paragraphs */
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+        a.footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--white-color);
+            display: inline-block;
+            text-decoration: none;
+        }
+        a.footer-logo span {
+            color: var(--secondary-color); /* Orange for 'Drive' in footer logo */
+        }
+        .footer-links h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            color: var(--white-color);
+            font-weight: 600;
+        }
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+        footer p {
+            margin: 0;
+        }
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        .footer-links ul a {
+            color: var(--light-green); /* Light green for footer links */
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .footer-links ul a:hover {
+            color: var(--secondary-color); /* Orange on hover for footer links */
+            text-decoration: underline;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .social-icons {
+                justify-content: flex-start;
+            }
+            .footer-content > div {
+                text-align: left;
+            }
+        }
+        .social-icons a {
+            font-size: 1.5rem;
+            color: var(--white-color);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: var(--secondary-color); /* Orange on hover for social icons */
+            transform: translateY(-3px);
+            text-decoration: none;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--light-green); /* Light green for copyright text */
+            font-size: 0.9rem;
+        }
+        .copyright p {
+            margin: 0;
+        }
+
+        /* --- Animations --- */
+        /* Preloader styles */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--white-color) !important; /* Ensure white background for preloader */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 1; /* Start visible */
+            transition: opacity 0.7s ease-out; /* Fade out effect */
+        }
+
+        /* Spinner inside preloader */
+        #preloader .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3); /* Lighter border for background */
+            border-top: 4px solid var(--primary-color); /* The spinning part (Vibrant Green) */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* General content sections animation */
+        /* Applied to all main sections that will animate in */
+        .page-title-banner, .main-content-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        /* Active state for content sections animation */
+        .page-title-banner.content-active, .main-content-section.content-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Fixed action buttons animation */
+        .fixed-action-btn {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            position: fixed; /* Ensures it stays fixed during animation */
+            right: 20px;
+            bottom: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        /* Active state for fixed action buttons animation */
+        .fixed-action-btn.fixed-btn-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .whatsapp-button {
+            background-color: #25D366; /* WhatsApp green */
+        }
+
+        .whatsapp-button:hover {
+            background-color: #1DA851; /* Darker green on hover */
+        }
+
+        .scroll-button {
+            background-color: var(--secondary-color); /* Orange */
+        }
+
+        .scroll-button:hover {
+            background-color: var(--secondary-dark-color); /* Darker orange on hover */
+        }
+    </style>
+</head>
+<body class="bg-[var(--light-green)] flex flex-col min-h-screen">
+    <!-- Preloader Overlay -->
+    <div id="preloader" class="fixed inset-0 bg-white flex items-center justify-center z-[1000]">
+        <div class="flex flex-col items-center">
+            <!-- FolkDrive placeholder logo -->
+            <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="h-20 w-auto mb-4 animate-pulse rounded-lg" onerror="this.src='https://placehold.co/80x80/4CAF50/FFFFFF?text=Logo';">
+            <!-- Simple spinner -->
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <!-- Header Section (consistent with other pages) -->
+    <header class="bg-white text-gray-800 shadow-lg fixed top-0 left-0 w-full z-50">
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between">
+            <!-- Logo area -->
+            <a href="index.html" class="mb-4 md:mb-0">
+                <!-- FolkDrive Logo with a placeholder image and rounded corners for aesthetics -->
+                <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="rounded-lg h-12 w-auto" onerror="this.src='https://placehold.co/48x48/4CAF50/FFFFFF?text=Logo';">
+            </a>
+            <!-- Navigation Menu -->
+            <nav>
+                <ul class="flex flex-wrap justify-center md:space-x-6 space-x-2 text-sm md:text-base">
+                    <!-- Navigation Links with icons, hover effects, and active state styling -->
+                    <li><a href="./index.html" class="flex items-center space-x-1 text-[var(--gray-800-text)] hover:bg-[var(--light-green)] hover:text-[var(--primary-dark-color)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-home"></i> <span class="hidden sm:inline">Home</span></a></li>
+                    <li><a href="./services.html" class="flex items-center space-x-1 text-[var(--gray-800-text)] hover:bg-[var(--light-green)] hover:text-[var(--primary-dark-color)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-handshake"></i> <span class="hidden sm:inline">Services</span></a></li>
+                    <li><a href="./methodology.html" class="flex items-center space-x-1 text-[var(--gray-800-text)] hover:bg-[var(--light-green)] hover:text-[var(--primary-dark-color)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-rocket"></i> <span class="hidden sm:inline">Methodology</span></a></li>
+                    <li><a href="./about.html" class="flex items-center space-x-1 bg-[var(--primary-color)] text-white p-2 rounded-md shadow-md active"><i class="fas fa-info-circle"></i> <span class="hidden sm:inline">About Us</span></a></li>
+                    <li><a href="./contact.html" class="flex items-center space-x-1 text-[var(--gray-800-text)] hover:bg-[var(--light-green)] hover:text-[var(--primary-dark-color)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-envelope"></i> <span class="hidden sm:inline">Contact</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow py-12 bg-[var(--light-green)] pt-[72px]"> <!-- Added pt-20 to offset fixed header -->
+        <!-- Page Title Banner Section -->
+        <div class="bg-gradient-to-br from-[var(--primary-color)] to-[var(--secondary-color)] text-white py-16 text-center shadow-lg mb-10 rounded-b-3xl page-title-banner content-active">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-4 drop-shadow-md">About Folkdrive</h2>
+                <p class="text-xl md:text-2xl opacity-90">Driving innovation and success through expertise and dedication</p>
+            </div>
+        </div>
+
+        <section class="main-content-section container mx-auto px-4 py-8 md:py-12 bg-white rounded-xl shadow-xl content-active">
+            <h2 class="text-[var(--dark-green)] text-3xl md:text-4xl font-extrabold text-center mb-10 relative pb-4 after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:w-20 after:h-1 after:bg-[var(--secondary-color)] after:rounded-full">Our Mission & Vision</h2>
+
+            <div class="mb-10">
+                <h3 class="text-[var(--dark-green)] text-2xl font-bold mb-4 pb-2 border-b-2 border-[var(--secondary-color)] inline-block">Our Mission</h3>
+                <p class="text-[var(--gray-800-text)] leading-relaxed mb-4">Our mission is to provide innovative solutions that drive success and growth for our clients. We believe in the power of technology and creative thinking to transform businesses.</p>
+                <p class="text-[var(--gray-800-text)] leading-relaxed">We are dedicated to delivering <span class="font-bold text-[var(--primary-dark-color)]">high-quality services</span> and fostering long-lasting relationships built on trust and mutual respect.</p>
+            </div>
+
+            <div class="mb-10">
+                <h3 class="text-[var(--dark-green)] text-2xl font-bold mb-4 pb-2 border-b-2 border-[var(--secondary-color)] inline-block">Our Story</h3>
+                <p class="text-[var(--gray-800-text)] leading-relaxed mb-4">Folkdrive started with a simple idea: to make sales excellence accessible and effective for everyone. Over the years, we've grown into a passionate team of experts committed to excellence. Our journey has been one of continuous learning and adaptation, always striving to stay ahead of the curve in a rapidly evolving industry.</p>
+            </div>
+
+            <div class="mt-16">
+                <h3 class="text-[var(--dark-green)] text-2xl font-bold mb-4 pb-2 border-b-2 border-[var(--secondary-color)] inline-block">Why Choose Us?</h3>
+                <p class="text-[var(--gray-800-text)] leading-relaxed">At Folkdrive, we combine <span class="font-bold text-[var(--primary-dark-color)]">deep industry expertise</span> with a <span class="font-bold text-[var(--secondary-color)]">client-centric approach</span>. We listen to your needs, understand your goals, and then craft tailored solutions. Our commitment to quality and innovation sets us apart, ensuring your success is our priority.</p>
+                <ul class="list-none p-0 mt-6 space-y-3 text-[var(--gray-800-text)]">
+                    <li class="relative pl-7"><i class="fas fa-check-circle absolute left-0 top-1 text-[var(--primary-color)]"></i> **Proven Track Record:** Years of experience delivering tangible results for businesses of all sizes.</li>
+                    <li class="relative pl-7"><i class="fas fa-check-circle absolute left-0 top-1 text-[var(--primary-color)]"></i> **Customized Solutions:** Strategies designed specifically to meet your unique business challenges.</li>
+                    <li class="relative pl-7"><i class="fas fa-check-circle absolute left-0 top-1 text-[var(--primary-color)]"></i> **Dedicated Support:** Our team is always ready to assist you, ensuring a smooth journey to success.</li>
+                    <li class="relative pl-7"><i class="fas fa-check-circle absolute left-0 top-1 text-[var(--primary-color)]"></i> **Innovative Approach:** Staying ahead of market trends to provide you with cutting-edge methodologies.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Fixed Action Buttons (Scroll and WhatsApp) -->
+    <div class="fixed-action-btn fixed-btn-active">
+        <button id="scroll-to-top" class="action-button scroll-button" aria-label="Scroll to Top">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button id="scroll-to-bottom" class="action-button scroll-button" aria-label="Scroll to Bottom">
+            <i class="fas fa-arrow-down"></i>
+        </button>
+        <a href="./contact.html" target="_blank" class="action-button whatsapp-button" aria-label="Chat on WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <!-- Footer Section (consistent with other pages) -->
+    <footer class="bg-[var(--neutral-dark-bg)] text-white py-10 mt-auto footer-active">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <!-- Footer Left Section - Logo and Description -->
+                <div class="text-center md:text-left">
+                    <a href="index.html" class="text-3xl font-extrabold text-[var(--primary-color)] hover:text-[var(--primary-dark-color)] transition-colors duration-300">Folk<span class="text-[var(--secondary-color)]">drive</span></a>
+                    <p class="mt-4 text-sm leading-relaxed text-[var(--light-green)]">Empowering Sales <br>Teams unlocks their full potential, enabling them to drive results and exceed targets.</p>
+                </div>
+                <!-- Footer Middle Section - Company Links -->
+                <div class="text-center md:text-left">
+                    <h4 class="font-bold text-xl mb-4 text-white">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="./about.html" class="flex items-center justify-center md:justify-start space-x-2 text-white font-semibold"><i class="fas fa-info-circle"></i> <span>About Us</span></a></li>
+                        <!-- Added Services link to footer -->
+                        <li><a href="./services.html" class="flex items-center justify-center md:justify-start space-x-2 text-[var(--secondary-color)] hover:text-white transition-colors duration-300"><i class="fas fa-handshake"></i> <span>Services</span></a></li>
+                        <!-- Added Methodology link to footer -->
+                        <li><a href="./methodology.html" class="flex items-center justify-center md:justify-start space-x-2 text-[var(--secondary-color)] hover:text-white transition-colors duration-300"><i class="fas fa-rocket"></i> <span>Methodology</span></a></li>
+                    </ul>
+                </div>
+                <!-- Footer Right Section - Contact Information -->
+                <div class="text-center md:text-left">
+                    <h4 class="font-bold text-xl mb-4 text-white">Contact</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mailto:info@folkdrive.com" class="flex items-center justify-center md:justify-start space-x-2 text-[var(--secondary-color)] hover:text-white transition-colors duration-300"><i class="fas fa-envelope"></i> <span>info@folkdrive.com</span></a></li>
+                        <li><a href="tel:+919916245531" class="flex items-center justify-center md:justify-start space-x-2 text-[var(--secondary-color)] hover:text-white transition-colors duration-300"><i class="fas fa-phone"></i> <span>+919916245531</span></a></li>
+                        <li><a href="./contact.html" class="flex items-center justify-center md:justify-start space-x-2 text-[var(--secondary-color)] hover:text-white transition-colors duration-300"><i class="fas fa-address-book"></i> <span>Contact Form</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Copyright Section -->
+            <div class="text-center text-sm border-t border-[var(--dark-green)] pt-6">
+                <p>&copy; <span id="currentYear"></span> Folkdrive. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // JavaScript for Scroll to Top/Bottom
+        const scrollToTopButton = document.getElementById('scroll-to-top');
+        const scrollToBottomButton = document.getElementById('scroll-to-bottom');
+
+        scrollToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        scrollToBottomButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior: 'smooth'
+            });
+        });
+
+        // --- Page Opening Animation Logic ---
+        window.onload = function() {
+            // Dynamically sets the current year in the footer
+            const currentYearSpan = document.getElementById('currentYear');
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+
+            // Get references to elements for animation
+            const preloader = document.getElementById('preloader');
+            const header = document.querySelector('header');
+            const pageTitleBanner = document.querySelector('.page-title-banner');
+            const mainContentSection = document.querySelector('.main-content-section');
+            const fixedActionButtons = document.querySelector('.fixed-action-btn');
+            const footer = document.querySelector('footer');
+
+            // Set initial display of fixed buttons to flex for proper layout before animation
+            fixedActionButtons.style.display = 'flex';
+
+            // Delay before preloader starts fading out (e.g., allow logo/spinner to show)
+            setTimeout(() => {
+                preloader.style.opacity = '0'; // Start preloader fade out
+
+                // After preloader transition finishes, hide it completely and start content animations
+                setTimeout(() => {
+                    preloader.style.display = 'none'; // Hide preloader
+                    document.body.style.overflow = 'auto'; // Re-enable scrolling
+
+                    let currentDelay = 0; // Cumulative delay
+
+                    // Animate header first
+                    setTimeout(() => {
+                        header.classList.add('header-active');
+                    }, currentDelay);
+                    currentDelay += 300; // Delay for next animation after header starts moving
+
+                    // Animate page title banner
+                    if (pageTitleBanner) {
+                        setTimeout(() => {
+                            pageTitleBanner.classList.add('content-active');
+                        }, currentDelay);
+                        currentDelay += 300;
+                    }
+
+                    // Animate main content section
+                    if (mainContentSection) {
+                        setTimeout(() => {
+                            mainContentSection.classList.add('content-active');
+                        }, currentDelay);
+                        currentDelay += 300;
+                    }
+
+                    // Animate fixed action buttons and footer
+                    setTimeout(() => {
+                        fixedActionButtons.classList.add('fixed-btn-active');
+                        footer.classList.add('footer-active');
+                    }, currentDelay);
+                    
+                }, 700); // Duration of preloader fade-out transition
+            }, 1000); // Initial delay before preloader starts fading
+        };
+    </script>
+</body>
+</html>
