@@ -3,518 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FolkDrive - Services</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Folkdrive | Sales & Process Efficiency</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome CDN for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <style>
+        /* Custom Properties for easy theme management */
+        :root {
+            --primary-color: #3b82f6; /* Tailwind blue-500 */
+            --primary-dark: #1e40af; /* Tailwind blue-800 */
+            --light-bg: #f9fafb;     /* Tailwind gray-50 */
+            --dark-bg: #111827;      /* Tailwind gray-900 */
+            --text-primary: #1f2937; /* Tailwind gray-800 */
+            --text-secondary: #4b5563;/* Tailwind gray-600 */
+        }
+        
+        /* Base Styles */
         body {
             font-family: 'Inter', sans-serif;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: var(--light-bg);
+            color: var(--text-primary);
         }
 
-        /* Custom Styles for preloader and animations */
         .no-scroll {
-            overflow: hidden !important;
+            overflow: hidden;
         }
 
+        /* --- Preloader Styles --- */
         #preloader {
-            transition: opacity 0.7s ease-out;
-            pointer-events: none; /* Allows clicks/interactions on content underneath once faded */
+            transition: opacity 0.7s ease-in-out;
         }
-
         .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid #FFF;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
+            border: 8px solid #e5e7eb; /* gray-200 */
+            border-top: 8px solid var(--primary-color);
+            animation: spin 1.5s linear infinite;
         }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        /* General Container */
-        .container {
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 1rem;
-            padding-right: 1rem;
-            box-sizing: border-box; /* Ensures padding is included in width */
-        }
-
-        /* Header Specific Styles */
+        /* --- Header Styles --- */
         header {
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
-            transform: translateY(-100%); /* Start off-screen */
-            transition: transform 0.5s ease-out;
-            border-bottom-left-radius: 1rem; /* Rounded corners */
-            border-bottom-right-radius: 1rem; /* Rounded corners */
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
         }
-
-        header.header-active {
-            transform: translateY(0); /* Slide in */
-        }
-
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header-container img {
-            height: 3.5rem; /* Adjust logo height */
-            width: auto;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(to right, #4CAF50, #8BC34A); /* Green gradient background */
+        header nav a.active {
+            background-color: var(--primary-color);
             color: white;
-            padding: 4rem 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        header nav a:not(.active) {
+            color: var(--text-secondary);
+        }
+         header nav a:not(.active):hover {
+            background-color: #eff6ff; /* blue-50 */
+            color: var(--primary-color);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=2084&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+            color: white;
             text-align: center;
-            border-bottom-left-radius: 2rem;
-            border-bottom-right-radius: 2rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            opacity: 0; /* Start hidden */
-            transform: translateY(20px); /* Start slightly below */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            padding: 6rem 1rem;
         }
-
-        .hero.content-active {
-            opacity: 1; /* Fade in */
-            transform: translateY(0); /* Slide up */
-        }
-
         .hero h1 {
             font-size: 3rem;
             font-weight: 800;
             margin-bottom: 1rem;
-            line-height: 1.2;
-            color: white; /* Ensure text is white over the hero background */
         }
-
         .hero p {
             font-size: 1.25rem;
-            max-width: 800px;
+            max-width: 600px;
             margin: 0 auto 2rem;
+            color: #d1d5db; /* gray-300 */
         }
-
         .hero a {
-            display: inline-block;
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            font-weight: 600;
-            text-decoration: none;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .hero a:hover {
+            background-color: var(--primary-dark);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
 
-        /* Main Content Sections */
-        main {
-            flex-grow: 1; /* Allows main to take available space */
-            padding: 2rem 0;
-        }
-
-        .main-content {
+        /* --- General Section Styling --- */
+        main > section {
             background-color: white;
-            padding: 3rem 2rem;
-            border-radius: 1.5rem;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-            opacity: 0; /* Start hidden */
-            transform: translateY(20px); /* Start slightly below */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            padding: 4rem 2rem;
+            border-radius: 1rem;
+            margin: 2rem auto;
         }
-
-        .main-content.content-active {
-            opacity: 1; /* Fade in */
-            transform: translateY(0); /* Slide up */
-        }
-
         .section-title {
             text-align: center;
-            margin-bottom: 2.5rem;
-            padding: 1.5rem 1rem; /* Added padding to make gradient visible */
-            border-radius: 1rem; /* Rounded corners for the background */
-            background: linear-gradient(to right, #FF9800, #4CAF50); /* Orange-green gradient background */
-            color: white; /* Ensure text is white on gradient background */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Optional shadow */
+            margin-bottom: 3rem;
         }
-
         .section-title h2 {
             font-size: 2.5rem;
             font-weight: 800;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-            color: white; /* Make heading text white */
-            -webkit-text-fill-color: unset; /* Remove text fill for heading */
+            color: var(--text-primary);
         }
-
-        .section-title h2 .text-orange-500,
-        .section-title h2 .text-green-500 {
-            color: white; /* Ensure text inside span is white on gradient background */
-            -webkit-text-fill-color: white; /* Ensure text inside span is white */
-        }
-
-
         .section-title p {
-            font-size: 1.15rem;
-            color: white; /* Make paragraph text white */
-            max-width: 700px;
-            margin: 0 auto;
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
         }
 
-        /* Service Cards */
+        /* --- Service Cards --- */
         .service-card {
-            background-color: #f9fafb;
+            background: var(--light-bg);
             border-radius: 1rem;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
         }
-
         .service-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
         }
-
         .service-img {
             height: 250px;
             background-size: cover;
             background-position: center;
-            border-top-left-radius: 1rem;
-            border-top-right-radius: 1rem;
-            /* Default placeholder will be used if images fail to load */
-            background-image: url('https://placehold.co/420x250/4CAF50/FFFFFF?text=Service+Image');
         }
-
-        /* Specific service images from online sources */
-        .service-img-1 { background-image: url('https://images.pexels.com/photos/3183162/pexels-photo-3183162.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); }
-        .service-img-2 { background-image: url('https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); }
-        .service-img-3 { background-image: url('https://images.pexels.com/photos/3184318/pexels-photo-3184318.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); }
-        .service-img-4 { background-image: url('https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); }
-
-
+        .service-img-1 { background-image: url('https://media.istockphoto.com/id/1330168808/photo/sales-man-making-a-proposal.webp?a=1&b=1&s=612x612&w=0&k=20&c=WMqllxkKjDiZpUbUvp9qE8MOUDhZWE7JmZidGR8OonE='); }
+        .service-img-2 { background-image: url('https://images.unsplash.com/photo-1573497491208-6b1acb260507?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); }
+        .service-img-3 { background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); }
+        .service-img-4 { background-image: url('https://images.unsplash.com/photo-1549923746-c502d488b3ea?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); }
         .service-content {
-            padding: 2rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
+            padding: 1.5rem;
         }
-
         .service-content h3 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            line-height: 1.3;
-            color: #333; /* Ensure service card headings are regular color */
-            -webkit-text-fill-color: unset; /* Remove text fill for heading */
-        }
-
-        .service-content p {
-            color: #666;
-            margin-bottom: 1.5rem;
-            flex-grow: 1; /* Allows paragraph to expand */
-        }
-
-        .service-content ul {
-            list-style: none;
-            padding: 0;
-            margin-top: 1rem;
-        }
-
-        .service-content ul li {
-            display: flex;
-            align-items: flex-start; /* Align icon and text at the top */
-            margin-bottom: 0.75rem;
-            color: #444;
-        }
-
-        .service-content ul li i {
-            color: #4CAF50; /* Green checkmark */
-            margin-right: 0.75rem;
-            font-size: 1.1em;
-            flex-shrink: 0; /* Prevent icon from shrinking */
-            margin-top: 0.2em; /* Adjust vertical alignment for icon */
-        }
-
-
-        /* Methodology Section (Framework Steps) */
-        .framework-step {
-            background-color: #f0fdf4; /* Light green background for steps */
-            border-radius: 1rem;
-            padding: 2rem;
-            text-align: center;
-            width: calc(50% - 1.5rem); /* Two columns on larger screens, considering gap */
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .framework-step:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .framework-step i, .framework-step img {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #4CAF50; /* Primary green */
-        }
-
-        .framework-step h4 {
             font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: #333;
+            margin-bottom: 0.5rem;
         }
-
-        .framework-step p {
-            font-size: 1rem;
-            color: #666;
-            line-height: 1.6;
+        .service-content ul li i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
         }
-
-        @media (min-width: 768px) {
-            .framework-step {
-                width: calc(25% - 1.5rem); /* Four columns on desktop */
-            }
-        }
-
-
-        /* CTA Section */
-        .cta-section {
-            background-color: #1B5E20; /* Dark green background */
-            color: white;
-            padding: 3rem 2rem;
-            border-radius: 1.5rem;
-            text-align: center;
-            opacity: 0; /* Start hidden */
-            transform: translateY(20px); /* Start slightly below */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .cta-section.content-active {
-            opacity: 1; /* Fade in */
-            transform: translateY(0); /* Slide up */
-        }
-
-        .cta-section .section-title h2 {
-            color: white;
-            -webkit-text-fill-color: unset; /* Remove text fill for heading */
-        }
-        .cta-section .section-title h2 .text-secondary-color {
-            color: white; /* Ensure text in span is white */
-            -webkit-text-fill-color: white; /* Ensure text in span is white */
-        }
-
-
-        .cta-section .section-title p {
-            color: white; /* Ensure text is white over the CTA gradient background */
-        }
-
-        .cta-buttons {
-            margin-top: 2rem;
+        
+        /* --- Methodology Section --- */
+        .framework-step {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
             align-items: center;
-            justify-content: center;
-        }
-
-        .btn-primary, .btn-secondary {
-            display: inline-block;
-            padding: 0.9rem 2rem;
+            text-align: center;
+            padding: 2rem;
             border-radius: 0.75rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 300px;
+            width: 250px;
+        }
+        .framework-step i, .framework-step img {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            height: 56px;
+            width: 56px;
+            color: var(--primary-color);
+        }
+        .framework-step h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
+        /* --- CTA Section --- */
+        .cta-section {
+            background: var(--dark-bg);
+        }
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .btn-primary, .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
         .btn-primary {
-            background-color: #FF9800; /* Orange */
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: #d1d5db; /* gray-300 */
+            border: 2px solid #4b5563; /* gray-600 */
+        }
+        .btn-secondary:hover {
+            background-color: #374151; /* gray-700 */
+            border-color: #374151;
             color: white;
         }
 
-        .btn-primary:hover {
-            background-color: #F57C00; /* Darker Orange */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-secondary {
-            background-color: white;
-            color: #1B5E20; /* Dark green */
-            border: 2px solid #1B5E20;
-        }
-
-        .btn-secondary:hover {
-            background-color: #e0e0e0;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        @media (min-width: 640px) {
-            .cta-buttons {
-                flex-direction: row;
-            }
-        }
-
-
-        /* Fixed Action Buttons (Scroll and WhatsApp) */
+        /* --- Fixed Action Button Styles --- */
         .fixed-action-btn {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            z-index: 100;
-            opacity: 0; /* Start hidden */
-            transform: translateX(20px); /* Start slightly to the right */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            gap: 0.75rem;
+            z-index: 40;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
-
-        .fixed-action-btn.fixed-btn-active {
-            opacity: 1; /* Fade in */
-            transform: translateX(0); /* Slide in */
-        }
-
         .action-button {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 9999px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            color: white;
         }
-
+        .action-button.scroll-button {
+            background-color: var(--text-secondary);
+        }
+        .action-button.scroll-button:hover {
+            background-color: var(--text-primary);
+        }
+        .action-button.whatsapp-button {
+            background-color: #25D366;
+        }
+        .action-button.whatsapp-button:hover {
+            background-color: #1DA851;
+        }
         .action-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
-
-        .scroll-button {
-            background-color: #FF9800; /* Orange for scroll buttons */
+        
+        /* --- Animation Classes --- */
+        header, .hero, .main-content, .fixed-action-btn, footer {
+            opacity: 0;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-
-        .whatsapp-button {
-            background-color: #25D366; /* WhatsApp green */
-        }
-
-        /* Footer Styles */
-        footer {
-            border-top-left-radius: 1rem;
-            border-top-right-radius: 1rem;
-            opacity: 0; /* Start hidden */
-            transform: translateY(20px); /* Start slightly below */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        footer.footer-active {
-            opacity: 1; /* Fade in */
-            transform: translateY(0); /* Slide up */
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 767px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-            .section-title h2 {
-                font-size: 2rem;
-            }
-            .section-title p {
-                font-size: 1rem;
-            }
-            .services-intro-section .grid {
-                grid-template-columns: 1fr;
-            }
-            .framework-step {
-                width: 100%;
-            }
-            .header-container nav {
-                display: none; /* Hide navigation on small screens by default, assuming a mobile menu toggle if desired */
-            }
-        }
+        header { transform: translateY(-100%); }
+        .hero, .main-content { transform: translateY(20px); }
+        .fixed-action-btn { transform: scale(0); }
+        footer { transform: translateY(50px); }
+        
+        .header-active { transform: translateY(0); opacity: 1; }
+        .content-active { transform: translateY(0); opacity: 1; }
+        .fixed-btn-active { transform: scale(1); opacity: 1; }
+        .footer-active { transform: translateY(0); opacity: 1; }
     </style>
 </head>
 <body class="bg-light-green flex flex-col min-h-screen no-scroll">
-    <!-- Preloader Overlay -->
+    <!-- Preloader -->
     <div id="preloader" class="fixed inset-0 bg-white flex items-center justify-center z-[1000]">
         <div class="flex flex-col items-center">
-            <!-- FolkDrive placeholder logo -->
             <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="h-20 w-auto mb-4 animate-pulse rounded-lg">
-            <!-- Simple spinner -->
             <div class="spinner"></div>
         </div>
     </div>
 
-    <!-- Header Section -->
-    <header class="bg-white text-gray-800 shadow-lg fixed top-0 left-0 w-full z-50">
-        <div class="container header-container">
-            <!-- Logo area -->
-            <a href="index.html">
-                <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="rounded-lg">
+    <!-- Header -->
+    <header class="shadow-md fixed top-0 left-0 w-full z-50">
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between">
+            <a href="index.html" class="mb-4 md:mb-0">
+                <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="rounded-lg h-10 w-auto">
             </a>
-            <!-- Navigation Menu -->
             <nav>
-                <ul class="flex flex-wrap justify-center md:space-x-6 space-x-2 text-sm md:text-base">
-                    <li><a href="./index.html" class="flex items-center space-x-1 text-gray-800 hover:bg-green-100 hover:text-green-700 transition-colors duration-300 p-2 rounded-md"><i class="fas fa-home"></i> <span class="hidden sm:inline">Home</span></a></li>
-                    <li><a href="./services.html" class="flex items-center space-x-1 bg-green-500 text-white p-2 rounded-md shadow-md active"><i class="fas fa-handshake"></i> <span class="hidden sm:inline">Services</span></a></li>
-                    <li><a href="./methodology.html" class="flex items-center space-x-1 text-gray-800 hover:bg-green-100 hover:text-green-700 transition-colors duration-300 p-2 rounded-md"><i class="fas fa-rocket"></i> <span class="hidden sm:inline">Methodology</span></a></li>
-                    <li><a href="./about.html" class="flex items-center space-x-1 text-gray-800 hover:bg-green-100 hover:text-green-700 transition-colors duration-300 p-2 rounded-md"><i class="fas fa-info-circle"></i> <span class="hidden sm:inline">About Us</span></a></li>
-                    <li><a href="./contact.html" class="flex items-center space-x-1 text-gray-800 hover:bg-green-100 hover:text-green-700 transition-colors duration-300 p-2 rounded-md"><i class="fas fa-envelope"></i> <span class="hidden sm:inline">Contact</span></a></li>
+                <ul class="flex flex-wrap justify-center md:space-x-2 text-sm md:text-base">
+                    <li><a href="./index.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300 "><i class="fas fa-home"></i> <span class="hidden sm:inline">Home</span></a></li>
+                    <li><a href="./services.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300 active"><i class="fas fa-handshake"></i> <span class="hidden sm:inline">Services</span></a></li>
+                    <li><a href="./methodology.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300"><i class="fas fa-rocket"></i> <span class="hidden sm:inline">Methodology</span></a></li>
+                    <li><a href="./about.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300"><i class="fas fa-info-circle"></i> <span class="hidden sm:inline">About Us</span></a></li>
+                    <li><a href="./contact.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300"><i class="fas fa-envelope"></i> <span class="hidden sm:inline">Contact</span></a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero pt-20"> <!-- Added pt-20 to offset fixed header -->
-        <div class="container">
-            <!-- Modified: Removed gradient from h1 text, ensured text is white -->
-            <h1>Elevate Your Sales Performance</h1>
-            <p>Transform your sales team with our proven frameworks tailored for modern selling environments, driving measurable results.</p>
-            <a href="./contact.html" class="bg-orange-500 text-gray-800 hover:bg-orange-600 hover:shadow-lg">Get Started Today</a>
-        </div>
-    </section>
-
     <!-- Main Content -->
-    <main>
-        <!-- Services Intro Section -->
-        <section class="main-content container services-intro-section shadow-2xl">
-            <!-- Modified: Applied gradient to section-title div, removed from h2 text, ensured text is white -->
+    <main class="flex-grow pt-[88px] md:pt-[76px]">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container mx-auto">
+                <h1>Elevate Your Sales Performance</h1>
+                <p>Transform your sales team with our proven frameworks tailored for modern selling environments, driving measurable results.</p>
+                <a href="./contact.html">Get Started Today</a>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="main-content container services-intro-section shadow-lg">
             <div class="section-title">
-                <h2>Our <span class="text-orange-500">Services</span></h2>
+                <h2>Our <span class="text-blue-600">Services</span></h2>
                 <p>Customized programs designed to address your team's unique challenges and opportunities.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Service 1: Customer-Centric Selling -->
                 <div class="service-card">
-                    <div class="service-img service-img-1" role="img" aria-label="People collaborating on sales strategy" onerror="this.style.backgroundImage='url(https://placehold.co/420x250/4CAF50/FFFFFF?text=Service+Image+1)';"></div>
+                    <div class="service-img service-img-1" role="img" aria-label="People collaborating on sales strategy"></div>
                     <div class="service-content">
-                        <!-- Modified: Removed gradient from h3 text, ensured text is black/default -->
                         <h3>Customer-Centric Selling</h3>
                         <p>Shift from product-pushing to value-driven conversations that build lasting relationships.</p>
                         <ul>
@@ -526,47 +342,41 @@
                     </div>
                 </div>
 
-                <!-- Service 2: Mastering Remote Sales -->
                 <div class="service-card">
-                    <div class="service-img service-img-2" role="img" aria-label="Person working remotely with a laptop" onerror="this.style.backgroundImage='url(https://placehold.co/420x250/FF9800/FFFFFF?text=Service+Image+2)';"></div>
+                    <div class="service-img service-img-2" role="img" aria-label="Person working remotely with a laptop"></div>
                     <div class="service-content">
-                        <!-- Modified: Removed gradient from h3 text, ensured text is black/default -->
-                        <h3>Strategy and implementation</h3>
+                        <h3>Strategy and Implementation</h3>
                         <p>Turn selling from a challenge into your competitive advantage.</p>
                         <ul>
                             <li><i class="fas fa-check-circle"></i> Define clear objectives and measurable goals.</li>
                             <li><i class="fas fa-check-circle"></i> Develop actionable plans with detailed timelines.</li>
                             <li><i class="fas fa-check-circle"></i> Allocate necessary resources and personnel.</li>
-                            <li><i class="fas fa-check-circle"></i> Monitor progress and adjust course&nbsp;as&nbsp;needed.</li>
+                            <li><i class="fas fa-check-circle"></i> Monitor progress and adjust course as needed.</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Service 3: Virtual Trust Building -->
                 <div class="service-card">
-                    <div class="service-img service-img-3" role="img" aria-label="People shaking hands virtually over a screen" onerror="this.style.backgroundImage='url(https://placehold.co/420x250/4CAF50/FFFFFF?text=Service+Image+3)';"></div>
+                    <div class="service-img service-img-3" role="img" aria-label="People shaking hands virtually over a screen"></div>
                     <div class="service-content">
-                        <!-- Modified: Removed gradient from h3 text, ensured text is black/default -->
-                        <h3>Trust Building</h3>
-                        <p>Bridge the digital credibility gap that stalls remote deals.</p>
+                        <h3>Evaluation & Trust Building</h3>
+                        <p>Bridge the digital credibility gap that stalls remote deals and refine strategies.</p>
                         <ul>
                             <li><i class="fas fa-check-circle"></i> Body language & tone mastery</li>
-                            <li><i class="fas fa-check-circle"></i> Transparency frameworks</li>
+                            <li><i class="fas fa-check-circle"></i> Thorough assessments & custom solutions</li>
                             <li><i class="fas fa-check-circle"></i> Pre-call rapport-building</li>
                             <li><i class="fas fa-check-circle"></i> Social proof deployment strategies</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Service 4: Program Structure & Delivery -->
                 <div class="service-card">
-                    <div class="service-img service-img-4" role="img" aria-label="Team collaborating on a project" onerror="this.style.backgroundImage='url(https://placehold.co/420x250/FF9800/FFFFFF?text=Service+Image+4)';"></div>
+                    <div class="service-img service-img-4" role="img" aria-label="Team collaborating on a project"></div>
                     <div class="service-content">
-                        <!-- Modified: Removed gradient from h3 text, ensured text is black/default -->
                         <h3>Program Structure & Delivery</h3>
                         <p>A comprehensive curriculum that drives measurable results, delivered flexibly.</p>
                         <ul>
-                            <li><i class="fas fa-check-circle"></i> Phase 1: Core Skills</li>
+                            <li><i class="fas fa-check-circle"></i> Phase 1: Core Skills & Awareness</li>
                             <li><i class="fas fa-check-circle"></i> Phase 2: Advanced Scenarios</li>
                             <li><i class="fas fa-check-circle"></i> Phase 3: Coaching & Certification</li>
                             <li><i class="fas fa-check-circle"></i> Flexible delivery options</li>
@@ -576,45 +386,42 @@
             </div>
         </section>
 
-        <!-- Methodology Section (from original content, included for completeness if needed) -->
-        <section class="main-content container methodology-section shadow-2xl">
-            <!-- Modified: Applied gradient to section-title div, removed from h2 text, ensured text is white -->
+        <!-- Methodology Section -->
+        <section class="main-content container methodology-section shadow-lg">
             <div class="section-title">
-                <h2>Our <span class="text-green-500">Methodology</span></h2>
+                <h2>Our <span style="color: var(--primary-color);">Methodology</span></h2>
                 <p>The 4D Framework that ensures sustainable sales transformation.</p>
             </div>
             
             <div class="flex flex-wrap justify-center gap-6 mt-8">
-                <div class="framework-step bg-light-green border-l-4 border-primary-color shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:translate-y-[-5px]">
-                    <i class="fas fa-magnifying-glass text-primary-color group-hover:text-dark-green"></i>
+                <div class="framework-step bg-gray-50 border-l-4 border-blue-500 shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1">
+                    <i class="fas fa-magnifying-glass"></i>
                     <h4>Discover</h4>
-                    <p class="text-gray-800">Data-led needs assessment to identify precise skill gaps and opportunities.</p>
+                    <p class="text-gray-600">Data-led needs assessment to identify precise skill gaps and opportunities.</p>
                 </div>
-                <div class="framework-step bg-light-green border-l-4 border-primary-color shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:translate-y-[-5px]">
-                    <i class="fas fa-pencil-ruler text-primary-color group-hover:text-dark-green"></i>
+                <div class="framework-step bg-gray-50 border-l-4 border-blue-500 shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1">
+                    <i class="fas fa-pencil-ruler"></i>
                     <h4>Design</h4>
-                    <p class="text-gray-800">Customized learning paths aligned to your business objectives.</p>
+                    <p class="text-gray-600">Customized learning paths aligned to your business objectives.</p>
                 </div>
-                <div class="framework-step bg-light-green border-l-4 border-primary-color shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:translate-y-[-5px]">
-                    <!-- Added image for 'Deliver' instead of icon -->
-                    <img src="https://placehold.co/56x56/4CAF50/FFFFFF?text=D" alt="Deliver Icon" class="rounded-full text-primary-color group-hover:text-dark-green" onerror="this.src='https://placehold.co/56x56/4CAF50/FFFFFF?text=D';">
+                <div class="framework-step bg-gray-50 border-l-4 border-blue-500 shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1">
+                    <img src="https://placehold.co/56x56/3B82F6/FFFFFF?text=D" alt="Deliver Icon" class="rounded-full">
                     <h4>Deliver</h4>
-                    <p class="text-gray-800">Immersive training with AI-powered role-plays and real-world scenarios.</p>
+                    <p class="text-gray-600">Immersive training with AI-powered role-plays and real-world scenarios.</p>
                 </div>
-                <div class="framework-step bg-light-green border-l-4 border-primary-color shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:translate-y-[-5px]">
-                    <i class="fas fa-chart-line text-primary-color group-hover:text-dark-green"></i>
+                <div class="framework-step bg-gray-50 border-l-4 border-blue-500 shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1">
+                    <i class="fas fa-chart-line"></i>
                     <h4>Drive</h4>
-                    <p class="text-gray-800">Quarterly reinforcement sessions to sustain behavioral change.</p>
+                    <p class="text-gray-600">Quarterly reinforcement sessions to sustain behavioral change.</p>
                 </div>
             </div>
         </section>
 
         <!-- CTA Section -->
-        <section class="cta-section container shadow-2xl">
-            <!-- Modified: Applied gradient to section-title div, removed from h2 text, ensured text is white -->
+        <section class="cta-section container shadow-lg">
             <div class="section-title">
-                <h2>Ready to <span class="text-secondary-color">Transform Your Sales?</span></h2>
-                <p>Contact us today to discuss your unique sales challenges and discover how FolkDrive can help you achieve sustainable growth.</p>
+                <h2 class="text-white"> <span class="text-blue-400"> Ready to Transform Your Sales?</span></h2>
+                <p class="text-gray-300">Contact us today to discuss your unique sales challenges and discover how FolkDrive can help you achieve sustainable growth.</p>
             </div>
             <div class="cta-buttons">
                 <a href="./contact.html" class="btn-primary">Schedule a Consultation</a>
@@ -623,153 +430,114 @@
         </section>
     </main>
 
-    <!-- Fixed Action Buttons (Scroll and WhatsApp) -->
+    <!-- Fixed Action Buttons -->
     <div class="fixed-action-btn">
-        <button id="scroll-to-top" class="action-button scroll-button bg-orange-500 text-white hover:bg-orange-600" aria-label="Scroll to Top">
+        <button id="scroll-to-top" class="action-button scroll-button" aria-label="Scroll to Top">
             <i class="fas fa-arrow-up"></i>
         </button>
-        <button id="scroll-to-bottom" class="action-button scroll-button bg-orange-500 text-white hover:bg-orange-600" aria-label="Scroll to Bottom">
+        <button id="scroll-to-bottom" class="action-button scroll-button" aria-label="Scroll to Bottom">
             <i class="fas fa-arrow-down"></i>
         </button>
-        <a href="https://wa.me/919916245531" target="_blank" class="action-button whatsapp-button bg-green-500 text-white hover:bg-green-600" aria-label="Chat on WhatsApp">
+        <a href="https://wa.me/919916245531" target="_blank" class="action-button whatsapp-button" aria-label="Chat on WhatsApp">
             <i class="fab fa-whatsapp"></i>
         </a>
     </div>
 
-    <!-- Footer Section -->
-    <footer class="bg-[#1B5E20] text-white py-10 mt-auto">
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10 mt-auto">
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                <!-- Footer Left Section - Logo and Description -->
-                <div class="text-center md:text-left">
-                    <a href="index.html" class="text-3xl font-extrabold text-orange-300 hover:text-orange-100 transition-colors duration-300">Folk<span class="text-orange-500">drive</span></a>
-                    <p class="mt-4 text-sm leading-relaxed text-green-200">Empowering Sales <br>Teams unlocks their full potential, enabling them to drive results and&nbsp;exceed&nbsp;targets.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
+                <div>
+                    <a href="index.html" class="inline-block mb-4 text-3xl font-extrabold text-white hover:text-gray-300 transition-colors duration-300">Folk<span class="text-blue-500">drive</span></a>
+                    <p class="mt-2 text-sm leading-relaxed text-gray-400">Empowering Sales Teams to unlock their full potential, enabling them to drive results and exceed targets.</p>
                 </div>
-                <!-- Footer Middle Section - Company Links -->
-                <div class="text-center md:text-left">
+                <div>
                     <h4 class="font-bold text-xl mb-4 text-white">Company</h4>
                     <ul class="space-y-2">
-                        <li><a href="./about.html" class="flex items-center justify-center md:justify-start space-x-2 text-green-200 hover:text-white transition-colors duration-300"><i class="fas fa-info-circle"></i> <span>About Us</span></a></li>
-                        <li><a href="./services.html" class="flex items-center justify-center md:justify-start space-x-2 text-green-200 hover:text-white transition-colors duration-300"><i class="fas fa-handshake"></i> <span>Services</span></a></li>
-                        <li><a href="./methodology.html" class="flex items-center justify-center md:justify-start space-x-2 text-green-200 hover:text-white transition-colors duration-300"><i class="fas fa-rocket"></i> <span>Methodology</span></a></li>
+                        <li><a href="./about.html" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-info-circle"></i> <span>About Us</span></a></li>
+                        <li><a href="./services.html" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-handshake"></i> <span>Services</span></a></li>
+                        <li><a href="./methodology.html" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-rocket"></i> <span>Methodology</span></a></li>
                     </ul>
                 </div>
-                <!-- Footer Right Section - Contact Information -->
-                <div class="text-center md:text-left">
+                <div>
                     <h4 class="font-bold text-xl mb-4 text-white">Contact</h4>
                     <ul class="space-y-2">
-                        <li><a href="mailto:info@folkdrive.com" class="flex items-center justify-center md:justify-start space-x-2 text-green-200 hover:text-white transition-colors duration-300"><i class="fas fa-envelope"></i> <span>info@folkdrive.com</span></a></li>
-                        <li><a href="tel:+919916245531" class="flex items-center justify-center md:justify-start space-x-2 text-green-200 hover:text-white transition-colors duration-300"><i class="fas fa-phone"></i> <span>+919916245531</span></a></li>
-                        <li><a href="./contact.html" class="flex items-center justify-center md:justify-start space-x-2 text-green-200 hover:text-white transition-colors duration-300"><i class="fas fa-address-book"></i> <span>Contact Form</span></a></li>
+                        <li><a href="mailto:info@folkdrive.com" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-envelope"></i> <span>info@folkdrive.com</span></a></li>
+                        <li><a href="tel:+919916245531" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-phone"></i> <span>+919916245531</span></a></li>
+                        <li><a href="./contact.html" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-address-book"></i> <span>Contact Form</span></a></li>
                     </ul>
                 </div>
             </div>
-            <!-- Copyright Section -->
-            <div class="text-center text-sm border-t border-green-700 pt-6">
-                <p>&copy; <span id="currentYear"></span> Folkdrive. All Rights Reserved.</p>
+            <div class="text-center text-sm border-t border-gray-700 pt-6">
+                <p class="text-gray-500">&copy; <span id="currentYear"></span> Folkdrive. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // JavaScript for Scroll to Top/Bottom
-        const scrollToTopButton = document.getElementById('scroll-to-top');
-        const scrollToBottomButton = document.getElementById('scroll-to-bottom');
-
-        scrollToTopButton.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        scrollToBottomButton.addEventListener('click', () => {
-            window.scrollTo({
-                top: document.documentElement.scrollHeight,
-                behavior: 'smooth'
-            });
-        });
-
-        // --- Page Opening Animation Logic ---
-        window.onload = function() {
-            // Dynamically sets the current year in the footer
-            const currentYearSpan = document.getElementById('currentYear');
-            if (currentYearSpan) {
-                currentYearSpan.textContent = new Date().getFullYear();
-            }
-
-            // Get references to elements for animation
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Elements ---
+            const scrollToTopBtn = document.getElementById('scroll-to-top');
+            const scrollToBottomBtn = document.getElementById('scroll-to-bottom');
             const preloader = document.getElementById('preloader');
-            const header = document.querySelector('header');
-            const heroSection = document.querySelector('.hero');
-            const servicesIntroSection = document.querySelector('.services-intro-section');
-            const methodologySection = document.querySelector('.methodology-section');
-            const ctaSection = document.querySelector('.cta-section');
+            const body = document.body;
+            
+            // --- Scroll Button Logic ---
+            const handleScrollButtons = () => {
+                const scrollY = window.scrollY;
+                const pageHeight = document.body.offsetHeight;
+                const viewportHeight = window.innerHeight;
 
-            const fixedActionButtons = document.querySelector('.fixed-action-btn');
-            const footer = document.querySelector('footer');
+                scrollToTopBtn.style.display = scrollY > 300 ? 'flex' : 'none';
+                scrollToBottomBtn.style.display = (pageHeight - (scrollY + viewportHeight) > 300) ? 'flex' : 'none';
+            };
+            
+            scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            scrollToBottomBtn.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+            window.addEventListener('scroll', handleScrollButtons);
 
-            // Set body overflow hidden initially to prevent scroll during preloader
-            document.body.classList.add('no-scroll');
+            // --- Page Load & Animation Logic ---
+            const initPage = () => {
+                // Set footer year
+                document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-            // Delay before preloader starts fading out (e.g., allow logo/spinner to show)
-            setTimeout(() => {
-                preloader.style.opacity = '0'; // Start preloader fade out
-
-                // After preloader transition finishes, hide it completely and start content animations
+                // Start preloader fade-out and subsequent animations
                 setTimeout(() => {
-                    preloader.style.display = 'none'; // Hide preloader
-                    document.body.classList.remove('no-scroll'); // Re-enable scrolling
-
-                    let currentDelay = 0; // Cumulative delay
-
-                    // Animate header first
-                    setTimeout(() => {
-                        header.classList.add('header-active');
-                    }, currentDelay);
-                    currentDelay += 300; // Delay for next animation after header starts moving
-
-                    // Animate hero section
-                    if (heroSection) {
-                        setTimeout(() => {
-                            heroSection.classList.add('content-active');
-                        }, currentDelay);
-                        currentDelay += 300;
-                    }
-
-                    // Animate services intro section
-                    if (servicesIntroSection) {
-                        setTimeout(() => {
-                            servicesIntroSection.classList.add('content-active');
-                        }, currentDelay);
-                        currentDelay += 300;
-                    }
-
-                    // Animate methodology section
-                    if (methodologySection) {
-                        setTimeout(() => {
-                            methodologySection.classList.add('content-active');
-                        }, currentDelay);
-                        currentDelay += 300;
-                    }
-
-                    // Animate CTA section
-                    if (ctaSection) {
-                        setTimeout(() => {
-                            ctaSection.classList.add('content-active');
-                        }, currentDelay);
-                        currentDelay += 300;
-                    }
-
-                    // Animate fixed action buttons and footer
-                    setTimeout(() => {
-                        fixedActionButtons.classList.add('fixed-btn-active');
-                        footer.classList.add('footer-active');
-                    }, currentDelay);
+                    preloader.style.opacity = '0';
                     
-                }, 700); // Duration of preloader fade-out transition
-            }, 1000); // Initial delay before preloader starts fading
-        };
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                        body.classList.remove('no-scroll');
+
+                        // Staggered animations for content
+                        const elementsToAnimate = [
+                            { el: document.querySelector('header'), cls: 'header-active' },
+                            { el: document.querySelector('.hero'), cls: 'content-active' },
+                            { el: document.querySelector('.services-intro-section'), cls: 'content-active' },
+                            { el: document.querySelector('.methodology-section'), cls: 'content-active' },
+                            { el: document.querySelector('.cta-section'), cls: 'content-active' },
+                            { el: document.querySelector('.fixed-action-btn'), cls: 'fixed-btn-active' },
+                            { el: document.querySelector('footer'), cls: 'footer-active' }
+                        ];
+
+                        let delay = 0;
+                        elementsToAnimate.forEach(item => {
+                            if (item.el) {
+                                setTimeout(() => {
+                                    item.el.classList.add(item.cls);
+                                }, delay);
+                                delay += 200; // Stagger delay
+                            }
+                        });
+
+                    }, 700); // Match opacity transition duration
+                }, 1000); // Initial delay to show preloader
+            };
+            
+            // Run initialization
+            initPage();
+            handleScrollButtons(); // Initial check for scroll buttons
+        });
     </script>
 </body>
 </html>

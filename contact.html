@@ -3,454 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - FolkDrive</title>
+    <title>Contact Us - Folkdrive</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome CDN for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts - Roboto -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* Ensures the Roboto font is applied globally */
-        body {
-            font-family: 'Roboto', sans-serif;
-            min-height: 150vh; /* Ensures content is long enough to scroll for demonstration */
-            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
-            background-color: var(--light-bg); /* Apply light background to body */
+        /* Custom CSS Variables for the new sophisticated theme */
+        :root {
+            --primary-color: #1A2B42; /* Deep Navy Blue */
+            --secondary-color: #007BFF; /* Vibrant Blue (for accents) */
+            --light-bg-color: #FFFFFF; /* Pure White */
+            --dark-bg-color: #121212; /* Near Black */
+            --text-color: #333333; /* Dark Gray for main text */
+            --heading-color: #1A2B42; /* Deep Navy Blue for headings */
+            --hover-bg: #E6F0FF; /* Very light blue for hover background */
+            --hover-text: #1A2B42; /* Deep Navy Blue for hover text */
         }
 
-        /* Define a consistent color palette (Green & Orange) and general styles */
-        :root {
-            --primary-green: #4CAF50;          /* Vibrant Green */
-            --primary-orange: #FF9800;         /* Vibrant Orange */
-            --dark-green: #2E7D32;             /* Deep Green */
-            --muted-green: #E8F5E9;            /* Very Light Green/Off-white */
-            --muted-orange: #FFCC80;           /* A softer orange, for contrast */
-            --dark-text: #2D3748;              /* Tailwind's gray-800 equivalent for general text on light backgrounds */
-            --light-bg: #F7FAF9;               /* A slightly off-white for main content background */
-            --white: #FFFFFF;                  /* Pure white */
-            --darker-green: #1B5E20;           /* Very dark green, used for footer background */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
 
         /* Preloader Styles */
         #preloader {
-            opacity: 1;
-            transition: opacity 0.7s ease-out; /* Smooth fade-out transition */
+            transition: opacity 0.7s ease-out;
         }
-        #preloader .spinner {
-            border: 6px solid rgba(0, 0, 0, 0.1);
-            border-left-color: var(--primary-green);
-            border-top-color: var(--primary-orange);
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
             border-radius: 50%;
             width: 50px;
             height: 50px;
             animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* Container for content width */
-        .container {
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
-        /* Header Specific Styles */
-        header {
-            background-color: var(--white);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: fixed; /* Changed to fixed for slide-down animation */
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            color: var(--dark-text);
-            opacity: 0; /* Initial state for animation */
-            transform: translateY(-80px); /* Start off-screen top */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Animation transition */
-        }
-        /* Active state for header animation */
-        header.header-active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Header container for responsiveness */
-        .header-container {
-            display: flex;
-            flex-direction: column; /* Stacks items vertically on mobile */
-            align-items: center;
-            padding: 1rem 1rem;
-        }
-        @media (min-width: 768px) {
-            .header-container {
-                flex-direction: row; /* Horizontal on desktop */
-                justify-content: space-between;
-                padding: 1rem 20px;
-            }
-        }
-        .header-container img {
-            height: 60px; /* Larger logo for better visibility */
-            width: auto;
-            margin-bottom: 1rem; /* Space below logo on mobile */
-        }
-        @media (min-width: 768px) {
-            .header-container img {
-                margin-bottom: 0; /* Remove margin on desktop */
-            }
-        }
-        nav ul {
-            display: flex;
-            flex-wrap: wrap; /* Allows items to wrap on smaller screens */
-            justify-content: center;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        nav li {
-            margin: 0.5rem 0.75rem;
-        }
-        nav a {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            color: var(--dark-text);
-            transition: all 0.3s ease;
-            white-space: nowrap; /* Prevents text from breaking lines */
-        }
-        nav a:hover {
-            background-color: var(--muted-green);
-            color: var(--primary-green);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        nav a.active {
-            background-color: var(--primary-green);
-            color: var(--white);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-            pointer-events: none; /* Disable click on active link */
-        }
-        nav a.active:hover { /* Override hover for active link */
-            background-color: var(--primary-green);
-            color: var(--white);
-        }
-
-        /* Page Title Banner */
-        .page-title-banner {
-            background: linear-gradient(135deg, var(--primary-orange), var(--primary-green));
-            opacity: 0; /* Initial state for animation */
-            transform: translateY(20px); /* Start slightly below */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Animation transition */
-        }
-        .page-title-banner.content-active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .page-title-banner h1 {
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        .page-title-banner p {
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Contact Section */
-        .contact-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .contact-section.content-active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .contact-card {
-            background-color: var(--white);
-            padding: 2.5rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .contact-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-        }
-        .contact-info-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            color: var(--dark-text);
-        }
-        .contact-info-item i {
-            font-size: 1.5rem;
-            color: var(--primary-orange); /* Icons in orange */
-            margin-right: 1rem;
-            width: 2rem;
-            text-align: center;
-        }
-        .contact-info-item p, .contact-info-item a {
-            font-size: 1.1rem;
-            line-height: 1.5;
-            color: var(--dark-text);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .contact-info-item a:hover {
-            color: var(--primary-green);
-        }
-
-        /* Contact Form Styles */
-        .contact-form {
-            background-color: var(--white);
-            padding: 2.5rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .contact-form:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-        }
-        .contact-form input[type="text"],
-        .contact-form input[type="email"],
-        .contact-form textarea {
-            width: 100%;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border: 1px solid var(--muted-green);
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            color: var(--dark-text);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            outline: none;
-        }
-        .contact-form input[type="text"]:focus,
-        .contact-form input[type="email"]:focus,
-        .contact-form textarea:focus {
-            border-color: var(--primary-green);
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
-        }
-        .contact-form textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-        .contact-form button[type="submit"] { /* Targeted the submit button directly */
-            background-color: var(--primary-green); /* Changed to green */
-            color: var(--white);
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3); /* Green shadow */
-            width: 100%; /* Full width on mobile */
-            display: flex; /* Added flex to center icon and text */
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem; /* Space between icon and text */
-        }
-        .contact-form button[type="submit"]:hover {
-            background-color: var(--dark-green); /* Darker green on hover */
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4); /* Green shadow on hover */
-        }
-        @media (min-width: 640px) {
-            .contact-form button[type="submit"] {
-                width: auto; /* Auto width on larger screens */
-            }
-        }
-
-        /* Map Section */
-        .map-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .map-section.content-active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .map-placeholder {
-            background-color: var(--muted-green);
-            height: 400px; /* Fixed height for map placeholder */
-            border-radius: 1.5rem;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        /* Fixed Action Buttons */
-        .fixed-action-btn {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            z-index: 90;
-            opacity: 0; /* Initial state for animation */
-            transform: translateX(50px); /* Start off-screen right */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .fixed-action-btn.fixed-btn-active {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        .action-button {
-            background-color: var(--primary-orange);
-            color: var(--white);
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            outline: none;
-            position: relative; /* For ripple effect */
-            overflow: hidden; /* For ripple effect */
-        }
-        .action-button:hover {
-            background-color: var(--secondary-dark-color);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-        }
-        .whatsapp-button {
-            background-color: #25D366; /* WhatsApp green */
-        }
-        .whatsapp-button:hover {
-            background-color: #1DA851;
-        }
-        /* Ripple effect for buttons */
-        .action-button::after {
-            content: '';
-            position: absolute;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.4);
-            width: 100px;
-            height: 100px;
-            margin-top: -50px;
-            margin-left: -50px;
-            opacity: 0;
-            transform: scale(0);
-            transition: transform 0.5s, opacity 0.5s;
-            pointer-events: none;
-        }
-        .action-button:active::after {
-            transform: scale(1);
-            opacity: 1;
-            transition: 0s;
-        }
-
-        /* Footer Specific Styles */
-        footer {
-            background-color: var(--primary-green); /* Green background for footer */
-            color: var(--white); /* White text for footer */
-            padding: 3rem 1rem 1rem;
-            margin-top: auto;
-            opacity: 0; /* Initial state for animation */
-            transform: translateY(20px); /* Start slightly below */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Animation transition */
-        }
-        /* Active state for footer animation */
+        /* Animations for content reveal */
+        .header-active,
+        .page-title-banner.content-active,
+        .contact-section.content-active,
+        .fixed-action-btn.fixed-btn-active,
         footer.footer-active {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Footer content arrangement */
-        footer .grid {
-            grid-template-columns: 1fr; /* Stack on mobile */
-        }
-        @media (min-width: 768px) {
-            footer .grid {
-                grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
-            }
+        header {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
 
-        footer h4 {
-            color: var(--white);
-            font-weight: 700;
-        }
-        footer a {
-            color: var(--white);
-            transition: color 0.3s ease;
-        }
-        footer a:hover {
-            color: var(--primary-orange);
-        }
-        footer .footer-logo {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--white);
-            display: inline-block;
-            text-decoration: none;
-        }
-        footer .footer-logo span {
-            color: var(--primary-orange);
-        }
-        footer .border-t {
-            border-color: var(--dark-green);
+        .page-title-banner {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
 
-        /* Ensure main content has padding to avoid header overlap */
+        .contact-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+
+        .fixed-action-btn {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            display: none; /* Hidden by default, shown by JS */
+            flex-direction: column; /* Stack buttons vertically */
+            gap: 10px; /* Space between buttons */
+            right: 20px; /* Position from right */
+            bottom: 20px; /* Position from bottom */
+            z-index: 999;
+        }
+
+        footer {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        /* Action button styling */
+        .action-button {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 9999px; /* Fully rounded */
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            font-size: 1.25rem;
+        }
+
+        .action-button:hover {
+            transform: scale(1.1);
+            background-color: var(--secondary-color);
+        }
+
+        /* WhatsApp button specific styling */
+        .whatsapp-button {
+            background-color: #25D366; /* WhatsApp green */
+        }
+        .whatsapp-button:hover {
+            background-color: #1DA851; /* Darker green on hover */
+        }
+        
+        /* Ensure the body takes full height and allows content to push footer down */
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
         main {
-            padding-top: 80px; /* Adjust based on header height */
+            flex-grow: 1;
+            /* Added padding to increase height of main content area, adjusted to accommodate fixed header */
+            padding-top: 72px; /* Adjusted top padding to offset fixed header */
+            padding-bottom: 50px; /* Added bottom padding for consistent spacing */
         }
 
-        /* Utility classes for animations */
-        .content-active {
-            opacity: 1;
-            transform: translateY(0);
+        /* Header specific styling */
+        .header-container {
+            @apply mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between;
         }
-        .fixed-btn-active {
-            opacity: 1;
-            transform: translateX(0);
+
+        /* Contact Section Specific Styles */
+        .contact-card, .contact-form {
+            @apply bg-[var(--light-bg-color)] p-8 rounded-xl shadow-lg;
+        }
+
+        .contact-info-item {
+            @apply flex items-start space-x-4 text-[var(--text-color)];
+        }
+
+        .contact-info-item i {
+            @apply text-[var(--primary-color)] text-2xl mt-1;
+        }
+
+        .contact-info-item p, .contact-info-item a {
+            @apply text-base;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            @apply w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--secondary-color)] focus:border-transparent transition-all duration-200 text-[var(--text-color)] placeholder-gray-500;
+        }
+
+        .contact-form button {
+            /* Changed button color to green */
+            background-color: #25D366; /* WhatsApp green */
+            color: white;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            padding-left: 24px;
+            padding-right: 24px;
+            border-radius: 9999px; /* Fully rounded */
+            font-size: 1.125rem; /* Text-lg */
+            font-weight: 600; /* Font-semibold */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px; /* space-x-2 */
+            width: 100%;
+        }
+
+        .contact-form button:hover {
+            background-color: #1DA851; /* Darker green on hover */
+        }
+
+        .contact-form button i {
+            @apply text-xl;
+        }
+
+        /* Footer Specific Styling */
+        .footer-logo {
+            @apply text-3xl font-extrabold text-[var(--primary-color)] hover:text-[var(--secondary-color)] transition-colors duration-300;
+        }
+
+        .footer ul li a {
+            @apply text-[var(--secondary-color)] hover:text-white transition-colors duration-300;
+        }
+
+        .footer ul li a.active {
+            @apply text-white; /* Active link in footer */
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="bg-[var(--light-bg-color)] flex flex-col min-h-screen">
     <!-- Preloader Overlay -->
-    <div id="preloader" class="fixed inset-0 bg-[var(--white)] flex items-center justify-center z-[1000]">
+    <div id="preloader" class="fixed inset-0 bg-white flex items-center justify-center z-[1000]">
         <div class="flex flex-col items-center">
-            <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="h-20 w-auto mb-4 animate-pulse rounded-lg">
+            <!-- FolkDrive placeholder logo -->
+            <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="h-20 w-auto mb-4 animate-pulse rounded-lg" onerror="this.src='https://placehold.co/80x80/1A2B42/FFFFFF?text=Logo';">
+            <!-- Simple spinner -->
             <div class="spinner"></div>
         </div>
     </div>
 
     <!-- Header Section -->
-    <header class="bg-white text-gray-800 shadow-lg fixed top-0 left-0 w-full z-50">
+    <header class="bg-[var(--light-bg-color)] text-[var(--text-color)] shadow-lg fixed top-0 left-0 w-full z-50">
         <div class="container header-container">
-            <a href="index.html">
-                <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="rounded-lg h-12 w-auto">
+            <!-- Logo area -->
+            <a href="index.html" class="mb-4 md:mb-0">
+                <!-- FolkDrive Logo with a placeholder image and rounded corners for aesthetics -->
+                <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="rounded-lg h-12 w-auto" onerror="this.src='https://placehold.co/48x48/1A2B42/FFFFFF?text=Logo';">
             </a>
+            <!-- Navigation Menu -->
             <nav>
                 <ul class="flex flex-wrap justify-center md:space-x-6 space-x-2 text-sm md:text-base">
-                    <li><a href="./index.html" class="flex items-center space-x-1 text-[var(--dark-text)] hover:bg-[var(--muted-green)] hover:text-[var(--primary-green)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-home"></i> <span class="hidden sm:inline">Home</span></a></li>
-                    <li><a href="./services.html" class="flex items-center space-x-1 text-[var(--dark-text)] hover:bg-[var(--muted-green)] hover:text-[var(--primary-green)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-handshake"></i> <span class="hidden sm:inline">Services</span></a></li>
-                    <li><a href="./methodology.html" class="flex items-center space-x-1 text-[var(--dark-text)] hover:bg-[var(--muted-green)] hover:text-[var(--primary-green)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-rocket"></i> <span class="hidden sm:inline">Methodology</span></a></li>
-                    <li><a href="./about.html" class="flex items-center space-x-1 text-[var(--dark-text)] hover:bg-[var(--muted-green)] hover:text-[var(--primary-green)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-info-circle"></i> <span class="hidden sm:inline">About Us</span></a></li>
-                    <li><a href="./contact.html" class="flex items-center space-x-1 bg-[var(--primary-green)] text-white p-2 rounded-md shadow-md active"><i class="fas fa-envelope"></i> <span class="hidden sm:inline">Contact</span></a></li>
+                    <!-- Navigation Links with icons, hover effects, and active state styling -->
+                    <li><a href="./index.html" class="flex items-center space-x-1 text-[var(--text-color)] hover:bg-[var(--hover-bg)] hover:text-[var(--hover-text)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-home"></i> <span class="hidden sm:inline">Home</span></a></li>
+                    <li><a href="./services.html" class="flex items-center space-x-1 text-[var(--text-color)] hover:bg-[var(--hover-bg)] hover:text-[var(--hover-text)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-handshake"></i> <span class="hidden sm:inline">Services</span></a></li>
+                    <li><a href="./methodology.html" class="flex items-center space-x-1 text-[var(--text-color)] hover:bg-[var(--hover-bg)] hover:text-[var(--hover-text)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-rocket"></i> <span class="hidden sm:inline">Methodology</span></a></li>
+                    <li><a href="./about.html" class="flex items-center space-x-1 text-[var(--text-color)] hover:bg-[var(--hover-bg)] hover:text-[var(--hover-text)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-info-circle"></i> <span class="hidden sm:inline">About Us</span></a></li>
+                    <li><a href="./contact.html" class="flex items-center space-x-1 bg-[var(--primary-color)] text-white p-2 rounded-md shadow-md active"><i class="fas fa-envelope"></i> <span class="hidden sm:inline">Contact</span></a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main class="flex-grow py-12 bg-[var(--light-bg)] pt-[72px]">
+    <main class="flex-grow py-12 bg-[var(--light-bg-color)]">
         <!-- Page Title Banner Section -->
-        <div class="py-16 text-center shadow-lg mb-10 rounded-b-3xl page-title-banner content-active">
+        <div class="bg-gradient-to-br from-[var(--primary-color)] to-[var(--secondary-color)] text-white py-16 text-center shadow-lg mb-10 rounded-b-3xl page-title-banner content-active">
             <div class="container mx-auto px-4">
                 <h1 class="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-md text-white">Get In Touch With Us</h1>
                 <p class="text-xl md:text-2xl opacity-90 text-white">We're here to help! Reach out for inquiries, support, or collaboration.</p>
@@ -459,10 +253,10 @@
 
         <div class="container mx-auto px-4">
             <!-- Contact Content Section -->
-            <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 contact-section">
+            <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 contact-section content-active">
                 <!-- Contact Information Card -->
                 <div class="contact-card flex flex-col justify-center">
-                    <h2 class="text-[var(--dark-text)] text-3xl md:text-4xl font-extrabold text-center lg:text-left mb-8 relative pb-4 after:content-[''] after:absolute after:left-1/2 lg:after:left-0 after:-translate-x-1/2 lg:after:translate-x-0 after:bottom-0 after:w-20 after:h-1 after:bg-[var(--primary-orange)] after:rounded-full">Our Contact Details</h2>
+                    <h2 class="text-[var(--heading-color)] text-3xl md:text-4xl font-extrabold text-center lg:text-left mb-8 relative pb-4 after:content-[''] after:absolute after:left-1/2 lg:after:left-0 after:-translate-x-1/2 lg:after:translate-x-0 after:bottom-0 after:w-20 after:h-1 after:bg-[var(--secondary-color)] after:rounded-full">Our Contact Details</h2>
                     <div class="space-y-6">
                         <div class="contact-info-item">
                             <i class="fas fa-map-marker-alt"></i>
@@ -497,38 +291,36 @@
 
                 <!-- Contact Form -->
                 <div class="contact-form">
-                    <h2 class="text-[var(--dark-text)] text-3xl md:text-4xl font-extrabold text-center lg:text-left mb-8 relative pb-4 after:content-[''] after:absolute after:left-1/2 lg:after:left-0 after:-translate-x-1/2 lg:after:translate-x-0 after:bottom-0 after:w-20 after:h-1 after:bg-[var(--primary-green)] after:rounded-full">Send Us a Message</h2>
-                    <form id="contactForm" action="#" method="POST" class="space-y-4">
+                    <h2 class="text-[var(--heading-color)] text-3xl md:text-4xl font-extrabold text-center lg:text-left mb-8 relative pb-4 after:content-[''] after:absolute after:left-1/2 lg:after:left-0 after:-translate-x-1/2 lg:after:translate-x-0 after:bottom-0 after:w-20 after:h-1 after:bg-[var(--secondary-color)] after:rounded-full">Send Us a Message</h2>
+                    <form id="contactForm" action="#" method="POST" class="space-y-6">
                         <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 sr-only">Name</label>
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                            <label for="name" class="block text-sm font-medium text-[var(--text-color)] mb-1">Your Name</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your name" required class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--secondary-color)] focus:border-transparent transition-all duration-200 text-[var(--text-color)] placeholder-gray-500">
                         </div>
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 sr-only">Email</label>
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                            <label for="email" class="block text-sm font-medium text-[var(--text-color)] mb-1">Your Email</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email address" required class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--secondary-color)] focus:border-transparent transition-all duration-200 text-[var(--text-color)] placeholder-gray-500">
                         </div>
                         <div>
-                            <label for="subject" class="block text-sm font-medium text-gray-700 sr-only">Subject</label>
-                            <input type="text" id="subject" name="subject" placeholder="Subject">
+                            <label for="subject" class="block text-sm font-medium text-[var(--text-color)] mb-1">Subject</label>
+                            <input type="text" id="subject" name="subject" placeholder="Enter subject" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--secondary-color)] focus:border-transparent transition-all duration-200 text-[var(--text-color)] placeholder-gray-500">
                         </div>
                         <div>
-                            <label for="message" class="block text-sm font-medium text-gray-700 sr-only">Message</label>
-                            <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                            <label for="message" class="block text-sm font-medium text-[var(--text-color)] mb-1">Your Message</label>
+                            <textarea id="message" name="message" rows="6" placeholder="Type your message here..." required class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-[var(--secondary-color)] focus:border-transparent transition-all duration-200 text-[var(--text-color)] placeholder-gray-500"></textarea>
                         </div>
-                        <button type="submit">
+                        <button type="submit" class="bg-[#25D366] text-white py-3 px-6 rounded-full text-lg font-semibold shadow-md hover:bg-[#1DA851] transition-colors duration-300 flex items-center justify-center space-x-2 w-full">
                             <i class="fab fa-whatsapp"></i> Send Message
                         </button>
                     </form>
                 </div>
             </section>
-
-            
             
         </div>
     </main>
 
     <!-- Fixed Action Buttons (Scroll and WhatsApp) -->
-    <div class="fixed-action-btn fixed-btn-active">
+    <div class="fixed-action-btn fixed-btn-active fixed bottom-20 right-4 flex-col gap-3">
         <button id="scroll-to-top" class="action-button scroll-button" aria-label="Scroll to Top">
             <i class="fas fa-arrow-up"></i>
         </button>
@@ -541,35 +333,35 @@
     </div>
 
     <!-- Footer Section -->
-    <footer class="bg-[var(--primary-green)] text-white py-10 mt-auto footer-active">
+    <footer class="bg-[var(--dark-bg-color)] text-white py-10 mt-auto footer-active">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                 <!-- Footer Left Section - Logo and Description -->
                 <div class="text-center md:text-left">
-                    <a href="index.html" class="footer-logo">Folk<span class="text-[var(--primary-orange)]">Drive</span></a>
-                    <p class="mt-4 text-sm leading-relaxed">Driving sales excellence and process efficiency for sustainable growth.</p>
+                    <a href="index.html" class="footer-logo">Folk<span class="text-[var(--secondary-color)]">Drive</span></a>
+                    <p class="mt-4 text-sm leading-relaxed text-[var(--light-bg-color)]">Empowering Sales <br>Teams unlocks their full potential, enabling them to drive results and exceed targets.</p>
                 </div>
                 <!-- Footer Middle Section - Company Links -->
                 <div class="text-center md:text-left">
                     <h4 class="font-bold text-xl mb-4 text-white">Company</h4>
                     <ul class="space-y-2">
-                        <li><a href="./about.html" class="flex items-center justify-center md:justify-start space-x-2 transition-colors duration-300"><i class="fas fa-info-circle"></i> <span>About Us</span></a></li>
-                        <li><a href="./services.html" class="flex items-center justify-center md:justify-start space-x-2 transition-colors duration-300"><i class="fas fa-handshake"></i> <span>Services</span></a></li>
-                        <li><a href="./methodology.html" class="flex items-center justify-center md:justify-start space-x-2 transition-colors duration-300"><i class="fas fa-rocket"></i> <span>Methodology</span></a></li>
+                        <li><a href="./about.html" class="flex items-center justify-center md:justify-start space-x-2 text-[var(--secondary-color)] hover:text-white transition-colors duration-300"><i class="fas fa-info-circle"></i> <span>About Us</span></a></li>
+                        <li><a href="./services.html" class="flex items-center justify-center md:justify-start space-x-2 text-[var(--secondary-color)] hover:text-white transition-colors duration-300"><i class="fas fa-handshake"></i> <span>Services</span></a></li>
+                        <li><a href="./methodology.html" class="flex items-center justify-center md:justify-start space-x-2 text-[var(--secondary-color)] hover:text-white transition-colors duration-300"><i class="fas fa-rocket"></i> <span>Methodology</span></a></li>
                     </ul>
                 </div>
                 <!-- Footer Right Section - Contact Information -->
                 <div class="text-center md:text-left">
                     <h4 class="font-bold text-xl mb-4 text-white">Contact</h4>
                     <ul class="space-y-2">
-                        <li><a href="mailto:info@folkdrive.com" class="flex items-center justify-center md:justify-start space-x-2 transition-colors duration-300"><i class="fas fa-envelope"></i> <span>info@folkdrive.com</span></a></li>
-                        <li><a href="tel:+919916245531" class="flex items-center justify-center md:justify-start space-x-2 transition-colors duration-300"><i class="fas fa-phone"></i> <span>+919916245531</span></a></li>
-                        <li><a href="./contact.html" class="flex items-center justify-center md:justify-start space-x-2 font-semibold active"><span>Contact Form</span></a></li>
+                        <li><a href="mailto:info@folkdrive.com" class="flex items-center justify-center md:justify-start space-x-2 text-[var(--secondary-color)] hover:text-white transition-colors duration-300"><i class="fas fa-envelope"></i> <span>info@folkdrive.com</span></a></li>
+                        <li><a href="tel:+919916245531" class="flex items-center justify-center md:justify-start space-x-2 text-[var(--secondary-color)] hover:text-white transition-colors duration-300"><i class="fas fa-phone"></i> <span>+919916245531</span></a></li>
+                        <li><a href="./contact.html" class="flex items-center justify-center md:justify-start space-x-2 text-white font-semibold active"><i class="fas fa-address-book"></i><span>Contact Form</span></a></li>
                     </ul>
                 </div>
             </div>
             <!-- Copyright Section -->
-            <div class="text-center text-sm border-t border-[var(--dark-green)] pt-6">
+            <div class="text-center text-sm border-t border-[var(--primary-color)] pt-6">
                 <p>&copy; <span id="currentYear"></span> Folkdrive. All Rights Reserved.</p>
             </div>
         </div>
@@ -606,8 +398,6 @@
             const header = document.querySelector('header');
             const pageTitleBanner = document.querySelector('.page-title-banner');
             const contactSection = document.querySelector('.contact-section');
-            const mapSection = document.querySelector('.map-section');
-
             const fixedActionButtons = document.querySelector('.fixed-action-btn');
             const footer = document.querySelector('footer');
 
@@ -643,14 +433,6 @@
                     if (contactSection) {
                         setTimeout(() => {
                             contactSection.classList.add('content-active');
-                        }, currentDelay);
-                        currentDelay += 300;
-                    }
-
-                    // Animate map section
-                    if (mapSection) {
-                        setTimeout(() => {
-                            mapSection.classList.add('content-active');
                         }, currentDelay);
                         currentDelay += 300;
                     }

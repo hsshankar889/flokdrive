@@ -3,468 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Methodology - FolkDrive</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Methodology | Folkdrive</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome CDN for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts - Roboto (as per user's request in the CSS snippet) -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        /* Ensures the Roboto font is applied globally */
-        body {
-            font-family: 'Roboto', sans-serif;
-            min-height: 150vh; /* Ensures content is long enough to scroll for demonstration */
-            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
-            background-color: var(--light-bg); /* Apply light background to body */
-        }
-
-        /* Define a consistent color palette (Green & Orange) and general styles */
+        /* Custom Properties for the Blue/Gray Theme */
         :root {
-            --primary-green: #4CAF50;          /* Vibrant Green */
-            --primary-orange: #FF9800;         /* Vibrant Orange */
-            --dark-green: #2E7D32;             /* Deep Green */
-            --muted-green: #E8F5E9;            /* Very Light Green/Off-white */
-            --muted-orange: #FFCC80;           /* A softer orange, for contrast */
-            --dark-text: #2D3748;              /* Tailwind's gray-800 equivalent for general text on light backgrounds */
-            --light-bg: #F7FAF9;               /* A slightly off-white for main content background */
-            --white: #FFFFFF;                  /* Pure white */
-            --darker-green: #1B5E20;           /* Very dark green, used for footer background */
+            --primary-color: #3b82f6; /* Tailwind blue-500 */
+            --primary-dark: #1e40af; /* Tailwind blue-800 */
+            --light-bg: #f9fafb;     /* Tailwind gray-50 */
+            --dark-bg: #111827;      /* Tailwind gray-900 */
+            --text-primary: #1f2937; /* Tailwind gray-800 */
+            --text-secondary: #4b5563;/* Tailwind gray-600 */
+            --border-color: #e5e7eb; /* Tailwind gray-200 */
+        }
+        
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: var(--light-bg);
+            color: var(--text-primary);
         }
 
-        /* Preloader Styles */
-        #preloader {
-            opacity: 1;
-            transition: opacity 0.7s ease-out; /* Smooth fade-out transition */
+        .no-scroll {
+            overflow: hidden;
         }
-        #preloader .spinner {
-            border: 6px solid rgba(0, 0, 0, 0.1);
-            border-left-color: var(--primary-green);
-            border-top-color: var(--primary-orange);
+
+        /* --- Preloader Styles --- */
+        #preloader {
+            transition: opacity 0.7s ease-in-out;
+        }
+        .spinner {
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
+            border: 8px solid var(--border-color);
+            border-top: 8px solid var(--primary-color);
+            animation: spin 1.5s linear infinite;
         }
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* Container for content width */
-        .container {
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
-        /* Header Specific Styles */
+        /* --- Header Styles --- */
         header {
-            background-color: var(--white);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: fixed; /* Changed to fixed for slide-down animation */
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            color: var(--dark-text);
-            opacity: 0; /* Initial state for animation */
-            transform: translateY(-80px); /* Start off-screen top */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Animation transition */
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
         }
-        /* Active state for header animation */
-        header.header-active {
-            opacity: 1;
-            transform: translateY(0);
+        header nav a.active {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        header nav a:not(.active) {
+            color: var(--text-secondary);
+        }
+        header nav a:not(.active):hover {
+            background-color: #eff6ff; /* blue-50 */
+            color: var(--primary-color);
         }
 
-        /* Header container for responsiveness */
-        .header-container {
-            display: flex;
-            flex-direction: column; /* Stacks items vertically on mobile */
-            align-items: center;
-            padding: 1rem 1rem;
-        }
-        @media (min-width: 768px) {
-            .header-container {
-                flex-direction: row; /* Horizontal on desktop */
-                justify-content: space-between;
-                padding: 1rem 20px;
-            }
-        }
-        .header-container img {
-            height: 60px; /* Larger logo for better visibility */
-            width: auto;
-            margin-bottom: 1rem; /* Space below logo on mobile */
-        }
-        @media (min-width: 768px) {
-            .header-container img {
-                margin-bottom: 0; /* Remove margin on desktop */
-            }
-        }
-        nav ul {
-            display: flex;
-            flex-wrap: wrap; /* Allows items to wrap on smaller screens */
-            justify-content: center;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        nav li {
-            margin: 0.5rem 0.75rem;
-        }
-        nav a {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            color: var(--dark-text);
-            transition: all 0.3s ease;
-            white-space: nowrap; /* Prevents text from breaking lines */
-        }
-        nav a:hover {
-            background-color: var(--muted-green);
-            color: var(--primary-green);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        nav a.active {
-            background-color: var(--primary-green);
-            color: var(--white);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-            pointer-events: none; /* Disable click on active link */
-        }
-        nav a.active:hover { /* Override hover for active link */
-            background-color: var(--primary-green);
-            color: var(--white);
-        }
-
-        /* Page Title Banner */
+        /* --- Page Title Banner --- */
         .page-title-banner {
-            /* Changed to orange-green gradient */
-            background: linear-gradient(135deg, var(--primary-orange), var(--primary-green));
-            opacity: 0; /* Initial state for animation */
-            transform: translateY(20px); /* Start slightly below */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Animation transition */
+            background: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('https://images.unsplash.com/photo-1542744095-291d1f67b221?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
         }
-        .page-title-banner.content-active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .page-title-banner h1 {
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        .page-title-banner p {
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Methodology Section (Cards) */
-        .methodology-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .methodology-section.content-active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        
+        /* --- Methodology & Feature Cards --- */
         .feature-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-radius 0.4s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* Subtle initial shadow */
+            border: 1px solid var(--border-color);
         }
-        .feature-card:hover {
-            transform: scale(1.03); /* Slightly less aggressive scale */
-            box-shadow: 0 12px 25px rgba(0,0,0,0.2); /* More prominent shadow on hover */
-            background-color: var(--primary-green); /* Change background on hover to vibrant green */
-            border-radius: 10px 50px 10px 50px; /* Morphing border-radius for an organic shape */
-        }
-        .feature-card .card-header {
-            font-size: 1.5rem;
+        .card-header {
+            font-size: 1.25rem; /* 20px */
             font-weight: 700;
-            padding: 1.5rem 1rem;
-            margin: -2rem -2rem 1.5rem -2rem; /* Pull header out to align with card edges */
-            color: var(--white);
-            background-color: var(--primary-green); /* Default green header */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            position: relative;
-            z-index: 1; /* Ensure header shadow is above card body */
+            padding: 1rem;
+            color: white;
+            background-color: var(--primary-color);
         }
-        .feature-card:first-child .card-header {
-            background-color: var(--primary-green); /* SPIN Selling */
+        .card-body ul i {
+             color: var(--primary-color);
         }
-        .feature-card:nth-child(2) .card-header {
-            background-color: var(--primary-orange); /* Challenger Sale */
-        }
-        .feature-card:nth-child(3) .card-header {
-            background-color: var(--darker-green); /* Value-Based Selling */
+        .card-body p.italic {
+             color: var(--text-secondary);
         }
 
-        .feature-card:hover .card-header {
-            background-color: var(--dark-green); /* Slightly darker green for header on card hover */
-        }
-
-        .feature-card:hover p,
-        .feature-card:hover li {
-            color: var(--white); /* Change text to white on hover */
-        }
-        .feature-card:hover li i {
-             /* Icons within the list can remain their original color or change to complement white text */
-             filter: brightness(1.2); /* Make icons slightly brighter on hover */
-        }
-
-        /* Specific styling for list icons within cards */
-        .feature-card ul li i {
-            font-size: 1rem;
-            width: 1.5rem; /* Ensure consistent icon sizing */
-            text-align: center;
-        }
-
-        /* Media Video Containers */
-        .media-container-video {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .media-container-video.content-active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .media-container-video video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .media-container-video > div {
-            border: 5px solid var(--primary-green); /* Border around video container */
-            background-color: var(--dark-text); /* Fallback background for video container */
-        }
-
-        /* Training Section */
+        /* --- Training Section --- */
         .training-section {
-            background-color: var(--white);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            border-radius: 2rem; /* Consistent large rounded corners */
-        }
-        .training-section.content-active {
-            opacity: 1;
-            transform: translateY(0);
+            background-color: white;
+            border-radius: 1.5rem;
         }
         .training-section h2::after {
-            background-color: var(--primary-orange); /* Orange underline for training section heading */
-        }
-        .training-section > div div { /* Training items */
-            background-color: var(--muted-green);
-            border-left-color: var(--primary-green);
-            transition: all 0.3s ease;
-        }
-        .training-section > div div:hover {
-            background-color: var(--primary-green); /* Green background on hover for training items */
-            color: var(--white);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            transform: translateY(-8px);
-        }
-        .training-section > div div:hover h3,
-        .training-section > div div:hover p {
-            color: var(--white); /* White text on hover for training items */
+            background-color: var(--primary-color);
         }
 
-        /* Image Gallery */
-        .image-gallery div {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 3px solid var(--muted-green); /* Light green border around images */
-            overflow: hidden; /* Ensure rounded corners clip images */
-        }
-        .image-gallery div:hover {
-            transform: scale(1.08); /* Slightly larger scale for images */
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            border-color: var(--primary-orange); /* Orange border on hover */
-        }
-        .image-gallery img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(0.2); /* Slightly desaturate images */
-            transition: filter 0.3s ease;
-        }
-        .image-gallery img:hover {
-            filter: grayscale(0); /* Full color on hover */
-        }
-
-        /* Fixed Action Buttons */
+        /* --- Fixed Action Button Styles --- */
         .fixed-action-btn {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            z-index: 90;
-            opacity: 0; /* Initial state for animation */
-            transform: translateX(50px); /* Start off-screen right */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .fixed-action-btn.fixed-btn-active {
-            opacity: 1;
-            transform: translateX(0);
+            gap: 0.75rem;
+            z-index: 40;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
         .action-button {
-            /* Changed to orange for scroll buttons */
-            background-color: var(--primary-orange);
-            color: var(--white);
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 9999px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             transition: all 0.3s ease;
-            cursor: pointer;
             border: none;
-            outline: none;
-            position: relative; /* For ripple effect */
-            overflow: hidden; /* For ripple effect */
+            cursor: pointer;
+            color: white;
         }
-        .action-button:hover {
-            background-color: var(--secondary-dark-color); /* Darker orange on hover */
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        .action-button.scroll-button {
+            background-color: var(--text-secondary);
         }
-        .whatsapp-button {
-            background-color: #25D366; /* WhatsApp green */
+        .action-button.scroll-button:hover {
+            background-color: var(--text-primary);
         }
-        .whatsapp-button:hover {
+        .action-button.whatsapp-button {
+            background-color: #25D366;
+        }
+        .action-button.whatsapp-button:hover {
             background-color: #1DA851;
         }
-        /* Ripple effect for buttons */
-        .action-button::after {
-            content: '';
-            position: absolute;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.4);
-            width: 100px; /* Large enough for ripple */
-            height: 100px;
-            margin-top: -50px;
-            margin-left: -50px;
+        .action-button:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* --- Animation Classes --- */
+        header, .page-title-banner, .methodology-section, .media-container-video, .training-section, .fixed-action-btn, footer {
             opacity: 0;
-            transform: scale(0);
-            transition: transform 0.5s, opacity 0.5s;
-            pointer-events: none;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        .action-button:active::after {
-            transform: scale(1);
-            opacity: 1;
-            transition: 0s;
-        }
-
-        /* Footer Specific Styles */
-        footer {
-            /* Changed background to primary-green and text to white */
-            background-color: var(--primary-green);
-            color: var(--white);
-            padding: 3rem 1rem 1rem;
-            margin-top: auto;
-            opacity: 0; /* Initial state for animation */
-            transform: translateY(20px); /* Start slightly below */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Animation transition */
-        }
-        /* Active state for footer animation */
-        footer.footer-active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Footer content arrangement */
-        footer .grid {
-            grid-template-columns: 1fr; /* Stack on mobile */
-        }
-        @media (min-width: 768px) {
-            footer .grid {
-                grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
-            }
-        }
-
-        footer h4 {
-            color: var(--white);
-            font-weight: 700;
-        }
-        footer a {
-            color: var(--white); /* Changed footer link color to white */
-            transition: color 0.3s ease;
-        }
-        footer a:hover {
-            color: var(--primary-orange);
-        }
-        footer .footer-logo { /* Renamed class for logo in footer */
-            font-size: 2rem; /* Adjusted for better visibility */
-            font-weight: 900;
-            color: var(--white); /* Changed footer logo 'Folk' to white */
-            display: inline-block;
-            text-decoration: none;
-        }
-        footer .footer-logo span {
-            color: var(--primary-orange);
-        }
-        footer .border-t {
-            border-color: var(--dark-green); /* Darker green border for copyright */
-        }
-
-        /* Ensure main content has padding to avoid header overlap */
-        main {
-            padding-top: 80px; /* Adjust based on header height */
-        }
-
-        /* Utility classes for animations - these were already in HTML, but ensuring they are defined */
-        .content-active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .fixed-btn-active {
-            opacity: 1;
-            transform: translateX(0);
-        }
+        header { transform: translateY(-100%); }
+        .page-title-banner, .methodology-section, .media-container-video, .training-section, footer { transform: translateY(20px); }
+        .fixed-action-btn { transform: scale(0); }
+        
+        .header-active { transform: translateY(0); opacity: 1; }
+        .content-active { transform: translateY(0); opacity: 1; }
+        .fixed-btn-active { transform: scale(1); opacity: 1; }
+        .footer-active { transform: translateY(0); opacity: 1; }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen no-scroll">
     <!-- Preloader Overlay -->
-    <div id="preloader" class="fixed inset-0 bg-[var(--white)] flex items-center justify-center z-[1000]">
+    <div id="preloader" class="fixed inset-0 bg-white flex items-center justify-center z-[1000]">
         <div class="flex flex-col items-center">
-            <!-- FolkDrive placeholder logo, now green/orange themed -->
             <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="h-20 w-auto mb-4 animate-pulse rounded-lg">
-            <!-- Simple spinner -->
             <div class="spinner"></div>
         </div>
     </div>
 
     <!-- Header Section -->
     <header class="bg-white text-gray-800 shadow-lg fixed top-0 left-0 w-full z-50">
-        <div class="container header-container">
-            <!-- Logo area -->
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between">
             <a href="index.html">
-                <!-- FolkDrive Logo with green and orange colors -->
-                <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="rounded-lg h-12 w-auto">
+                <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="rounded-lg h-10 w-auto">
             </a>
-            <!-- Navigation Menu -->
             <nav>
-                <ul class="flex flex-wrap justify-center md:space-x-6 space-x-2 text-sm md:text-base">
-                    <li><a href="./index.html" class="flex items-center space-x-1 text-[var(--dark-text)] hover:bg-[var(--muted-green)] hover:text-[var(--primary-green)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-home"></i> <span class="hidden sm:inline">Home</span></a></li>
-                    <li><a href="./services.html" class="flex items-center space-x-1 text-[var(--dark-text)] hover:bg-[var(--muted-green)] hover:text-[var(--primary-green)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-handshake"></i> <span class="hidden sm:inline">Services</span></a></li>
-                    <li><a href="./methodology.html" class="flex items-center space-x-1 bg-[var(--primary-green)] text-white p-2 rounded-md shadow-md active"><i class="fas fa-rocket"></i> <span class="hidden sm:inline">Methodology</span></a></li>
-                    <li><a href="./about.html" class="flex items-center space-x-1 text-[var(--dark-text)] hover:bg-[var(--muted-green)] hover:text-[var(--primary-green)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-info-circle"></i> <span class="hidden sm:inline">About Us</span></a></li>
-                    <li><a href="./contact.html" class="flex items-center space-x-1 text-[var(--dark-text)] hover:bg-[var(--muted-green)] hover:text-[var(--primary-green)] transition-colors duration-300 p-2 rounded-md"><i class="fas fa-envelope"></i> <span class="hidden sm:inline">Contact</span></a></li>
+                <ul class="flex flex-wrap justify-center md:space-x-2 text-sm md:text-base">
+                    <li><a href="./index.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300"><i class="fas fa-home"></i> <span class="hidden sm:inline">Home</span></a></li>
+                    <li><a href="./services.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300"><i class="fas fa-handshake"></i> <span class="hidden sm:inline">Services</span></a></li>
+                    <li><a href="./methodology.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300 active"><i class="fas fa-rocket"></i> <span class="hidden sm:inline">Methodology</span></a></li>
+                    <li><a href="./about.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300"><i class="fas fa-info-circle"></i> <span class="hidden sm:inline">About Us</span></a></li>
+                    <li><a href="./contact.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300"><i class="fas fa-envelope"></i> <span class="hidden sm:inline">Contact</span></a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main class="flex-grow py-12 bg-[var(--light-bg)] pt-[72px]">
+    <main class="flex-grow pt-[88px] md:pt-[76px]">
         <!-- Page Title Banner Section -->
         <div class="py-16 text-center shadow-lg mb-10 rounded-b-3xl page-title-banner">
             <div class="container mx-auto px-4">
@@ -475,119 +204,110 @@
 
         <div class="container mx-auto px-4">
             <!-- Methodology Section -->
-            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 methodology-section">
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 methodology-section bg-transparent p-0 shadow-none">
                 <!-- SPIN Selling Card -->
-                <div class="bg-white p-8 rounded-2xl shadow-xl flex flex-col transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl feature-card">
-                    <div class="card-header rounded-t-xl text-center">SPIN Selling</div>
-                    <div class="card-body flex-grow">
-                        <p class="text-[var(--dark-text)] leading-relaxed mb-4">A structured approach focusing on customer needs through four key question types:</p>
+                <div class="bg-white p-0 rounded-2xl shadow-xl flex flex-col transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl feature-card overflow-hidden">
+                    <div class="card-header text-center">SPIN Selling</div>
+                    <div class="card-body p-8 flex-grow flex flex-col">
+                        <p class="text-gray-600 leading-relaxed mb-4">A structured approach focusing on customer needs through four key question types:</p>
                         <ul class="list-none p-0 mb-6 space-y-3">
-                            <li class="relative pl-7 text-[var(--dark-text)]"><i class="fas fa-circle-info absolute left-0 top-1 text-[var(--primary-orange)]"></i> <strong>Situation</strong> - Understanding the customer's current state</li>
-                            <li class="relative pl-7 text-[var(--dark-text)]"><i class="fas fa-triangle-exclamation absolute left-0 top-1 text-[var(--primary-orange)]"></i> <strong>Problem</strong> - Identifying pain points and challenges</li>
-                            <li class="relative pl-7 text-[var(--dark-text)]"><i class="fas fa-lightbulb absolute left-0 top-1 text-[var(--primary-orange)]"></i> <strong>Implication</strong> - Exploring consequences of unresolved problems</li>
-                            <li class="relative pl-7 text-[var(--dark-text)]"><i class="fas fa-sack-dollar absolute left-0 top-1 text-[var(--primary-orange)]"></i> <strong>Need-payoff</strong> - Highlighting value of your solution</li>
+                            <li class="relative pl-7 text-gray-700"><i class="fas fa-circle-info absolute left-0 top-1"></i> <strong>Situation</strong> - Understanding the customer's current state</li>
+                            <li class="relative pl-7 text-gray-700"><i class="fas fa-triangle-exclamation absolute left-0 top-1"></i> <strong>Problem</strong> - Identifying pain points and challenges</li>
+                            <li class="relative pl-7 text-gray-700"><i class="fas fa-lightbulb absolute left-0 top-1"></i> <strong>Implication</strong> - Exploring consequences of unresolved problems</li>
+                            <li class="relative pl-7 text-gray-700"><i class="fas fa-sack-dollar absolute left-0 top-1"></i> <strong>Need-payoff</strong> - Highlighting value of your solution</li>
                         </ul>
-                        <p class="text-[var(--dark-text)] italic text-sm border-t border-[var(--light-bg)] pt-4 mt-auto">Research shows SPIN selling increases close rates by 17% compared to traditional methods.</p>
+                        <p class="text-sm border-t border-gray-200 pt-4 mt-auto italic">Research shows SPIN selling increases close rates by 17% compared to traditional methods.</p>
                     </div>
                 </div>
 
                 <!-- Challenger Sale Card -->
-                <div class="bg-white p-8 rounded-2xl shadow-xl flex flex-col transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl feature-card">
-                    <div class="card-header rounded-t-xl text-center" style="background-color: var(--primary-orange);">Challenger Sale</div>
-                    <div class="card-body flex-grow">
-                        <p class="text-[var(--dark-text)] leading-relaxed mb-4">Three core strategies for modern selling:</p>
+                <div class="bg-white p-0 rounded-2xl shadow-xl flex flex-col transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl feature-card overflow-hidden">
+                    <div class="card-header text-center" style="background-color: var(--text-secondary);">Challenger Sale</div>
+                    <div class="card-body p-8 flex-grow flex flex-col">
+                        <p class="text-gray-600 leading-relaxed mb-4">Three core strategies for modern selling:</p>
                         <ul class="list-none p-0 mb-6 space-y-3">
-                            <li class="relative pl-7 text-[var(--dark-text)]"><i class="fas fa-chalkboard-user absolute left-0 top-1 text-[var(--primary-green)]"></i> <strong>Teaching</strong> - Providing unique insights that challenge customer thinking</li>
-                            <li class="relative pl-7 text-[var(--dark-text)]"><i class="fas fa-arrows-to-circle absolute left-0 top-1 text-[var(--primary-green)]"></i> <strong>Tailoring</strong> - Adapting messages for different stakeholders</li>
-                            <li class="relative pl-7 text-[var(--dark-text)]"><i class="fas fa-handshake-angle absolute left-0 top-1 text-[var(--primary-green)]"></i> <strong>Taking Control</strong> - Confidently guiding the sales conversation</li>
+                            <li class="relative pl-7 text-gray-700"><i class="fas fa-chalkboard-user absolute left-0 top-1"></i> <strong>Teaching</strong> - Providing unique insights that challenge customer thinking</li>
+                            <li class="relative pl-7 text-gray-700"><i class="fas fa-arrows-to-circle absolute left-0 top-1"></i> <strong>Tailoring</strong> - Adapting messages for different stakeholders</li>
+                            <li class="relative pl-7 text-gray-700"><i class="fas fa-handshake-angle absolute left-0 top-1"></i> <strong>Taking Control</strong> - Confidently guiding the sales conversation</li>
                         </ul>
-                        <p class="text-[var(--dark-text)] italic text-sm border-t border-[var(--light-bg)] pt-4 mt-auto">Gartner reports Challenger reps outperform others by 54% in complex sales environments.</p>
+                        <p class="text-sm border-t border-gray-200 pt-4 mt-auto italic">Gartner reports Challenger reps outperform others by 54% in complex sales environments.</p>
                     </div>
                 </div>
 
                 <!-- Value-Based Selling Card -->
-                <div class="bg-white p-8 rounded-2xl shadow-xl flex flex-col transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl feature-card">
-                    <div class="card-header rounded-t-xl text-center" style="background-color: var(--darker-green);">Value-Based Selling</div>
-                    <div class="card-body flex-grow">
-                        <p class="text-[var(--dark-text)] leading-relaxed mb-4">A customer-centric approach focused on tangible business outcomes:</p>
+                <div class="bg-white p-0 rounded-2xl shadow-xl flex flex-col transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl feature-card overflow-hidden">
+                    <div class="card-header rounded-t-xl text-center" style="background-color: var(--dark-bg);">Value-Based Selling</div>
+                    <div class="card-body p-8 flex-grow flex flex-col">
+                        <p class="text-gray-600 leading-relaxed mb-4">A customer-centric approach focused on tangible business outcomes:</p>
                         <ul class="list-none p-0 mb-6 space-y-3">
-                            <li class="relative pl-7 text-[var(--dark-text)]"><i class="fas fa-calculator absolute left-0 top-1 text-[var(--primary-orange)]"></i> Articulating clear ROI calculations</li>
-                            <li class="relative pl-7 text-[var(--dark-text)]"><i class="fas fa-chart-line absolute left-0 top-1 text-[var(--primary-orange)]"></i> Demonstrating measurable benefits aligned to business goals</li>
-                            <li class="relative pl-7 text-[var(--dark-text)]"><i class="fas fa-tags absolute left-0 top-1 text-[var(--primary-orange)]"></i> Quantifying impact rather than discussing features</li>
-                            <li class="relative pl-7 text-[var(--dark-text)]"><i class="fas fa-users-line absolute left-0 top-1 text-[var(--primary-orange)]"></i> Building business case with customer stakeholders</li>
+                            <li class="relative pl-7 text-gray-700"><i class="fas fa-calculator absolute left-0 top-1"></i> Articulating clear ROI calculations</li>
+                            <li class="relative pl-7 text-gray-700"><i class="fas fa-chart-line absolute left-0 top-1"></i> Demonstrating measurable benefits aligned to business goals</li>
+                            <li class="relative pl-7 text-gray-700"><i class="fas fa-tags absolute left-0 top-1"></i> Quantifying impact rather than discussing features</li>
+                            <li class="relative pl-7 text-gray-700"><i class="fas fa-users-line absolute left-0 top-1"></i> Building business case with customer stakeholders</li>
                         </ul>
-                        <p class="text-[var(--dark-text)] italic text-sm border-t border-[var(--light-bg)] pt-4 mt-auto">Value-based selling increases deal size by 23% and reduces sales cycles by 19%.</p>
+                        <p class="text-sm border-t border-gray-200 pt-4 mt-auto italic">Value-based selling increases deal size by 23% and reduces sales cycles by 19%.</p>
                     </div>
                 </div>
             </section>
 
             <!-- Media Container - Video Placeholder 1 -->
             <div class="text-center my-12 media-container-video">
-                <div class="bg-[var(--dark-text)] min-h-[350px] aspect-video max-w-4xl mx-auto flex items-center justify-center rounded-xl shadow-2xl overflow-hidden">
-                    <!-- Placeholder for video content with green/orange colors -->
+                <div class="bg-gray-800 min-h-[350px] aspect-video max-w-4xl mx-auto flex items-center justify-center rounded-xl shadow-2xl overflow-hidden">
                     <video src="./istockphoto-1036766612-640_adpp_is.mp4" autoplay loop muted playsinline class="w-full h-full object-cover rounded-xl" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"></video>
-                    <div class="text-[var(--muted-green)] text-lg p-4" style="display:none;">Engaging Sales Video coming soon!</div>
+                    <div class="text-gray-300 text-lg p-4" style="display:none;">Engaging Sales Video coming soon!</div>
                 </div>
             </div>
 
             <!-- Training Section -->
             <section class="p-8 rounded-2xl shadow-xl mb-12 training-section">
-                <h2 class="text-[var(--dark-text)] text-3xl md:text-4xl font-extrabold text-center mb-10 relative pb-4 after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:w-20 after:h-1 after:bg-[var(--primary-orange)] after:rounded-full">Hands-on Training & Skill Development</h2>
+                <h2 class="text-gray-900 text-3xl md:text-4xl font-extrabold text-center mb-10 relative pb-4 after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:w-20 after:h-1 after:rounded-full">Hands-on Training & Skill Development</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-                    <!-- Training Item 1 -->
-                    <div class="bg-[var(--muted-green)] p-6 rounded-lg border-l-4 border-[var(--primary-green)] shadow-md transition-all duration-300 hover:bg-[var(--white)] hover:shadow-lg hover:translate-y-[-5px]">
-                        <h3 class="text-xl font-semibold text-[var(--dark-text)] mb-3">1. Role-Playing Simulations</h3>
-                        <p class="text-[var(--dark-text)] text-sm">Immerse in realistic sales scenarios with guided feedback from coaches and peers. Develop muscle memory for critical conversations.</p>
+                    <div class="bg-gray-100 p-6 rounded-lg border-l-4 border-blue-500 shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">1. Role-Playing Simulations</h3>
+                        <p class="text-gray-600 text-sm">Immerse in realistic sales scenarios with guided feedback from coaches and peers. Develop muscle memory for critical conversations.</p>
                     </div>
-
-                    <!-- Training Item 2 -->
-                    <div class="bg-[var(--muted-green)] p-6 rounded-lg border-l-4 border-[var(--primary-green)] shadow-md transition-all duration-300 hover:bg-[var(--white)] hover:shadow-lg hover:translate-y-[-5px]">
-                        <h3 class="text-xl font-semibold text-[var(--dark-text)] mb-3">2. Interactive Workshops</h3>
-                        <p class="text-[var(--dark-text)] text-sm">Collaborative learning through group exercises, case studies, and solution design challenges that mirror actual customer situations.</p>
+                    <div class="bg-gray-100 p-6 rounded-lg border-l-4 border-blue-500 shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">2. Interactive Workshops</h3>
+                        <p class="text-gray-600 text-sm">Collaborative learning through group exercises, case studies, and solution design challenges that mirror actual customer situations.</p>
                     </div>
-
-                    <!-- Training Item 3 -->
-                    <div class="bg-[var(--muted-green)] p-6 rounded-lg border-l-4 border-[var(--primary-green)] shadow-md transition-all duration-300 hover:bg-[var(--white)] hover:shadow-lg hover:translate-y-[-5px]">
-                        <h3 class="text-xl font-semibold text-[var(--dark-text)] mb-3">3. Personalized Coaching</h3>
-                        <p class="text-[var(--dark-text)] text-sm">One-on-one sessions to address individual challenges, refine techniques, and accelerate skill development with targeted feedback.</p>
+                    <div class="bg-gray-100 p-6 rounded-lg border-l-4 border-blue-500 shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">3. Personalized Coaching</h3>
+                        <p class="text-gray-600 text-sm">One-on-one sessions to address individual challenges, refine techniques, and accelerate skill development with targeted feedback.</p>
                     </div>
-
-                    <!-- Training Item 4 -->
-                    <div class="bg-[var(--muted-green)] p-6 rounded-lg border-l-4 border-[var(--primary-green)] shadow-md transition-all duration-300 hover:bg-[var(--white)] hover:shadow-lg hover:translate-y-[-5px]">
-                        <h3 class="text-xl font-semibold text-[var(--dark-text)] mb-3">4. Sales Resources</h3>
-                        <p class="text-[var(--dark-text)] text-sm">Access to playbooks, battle cards, and real-world success stories from top performers across industries.</p>
+                    <div class="bg-gray-100 p-6 rounded-lg border-l-4 border-blue-500 shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">4. Sales Resources</h3>
+                        <p class="text-gray-600 text-sm">Access to playbooks, battle cards, and real-world success stories from top performers across industries.</p>
                     </div>
                 </div>
 
                 <!-- Image Gallery -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mt-10 image-gallery">
-                    <div class="h-44 bg-[var(--muted-green)] rounded-lg shadow-md overflow-hidden flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
-                        <img src="https://library.ascd.org/m/3146668b527a8589/webimage-shutterstock_388588465.jpg" alt="Training Session Photo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/220x180/2ECC71/FFFFFF?text=Training+Image+1';">
+                    <div class="h-44 bg-gray-200 rounded-lg shadow-md overflow-hidden flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                        <img src="https://library.ascd.org/m/3146668b527a8589/webimage-shutterstock_388588465.jpg" alt="Training Session Photo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/220x180/3B82F6/FFFFFF?text=Training+1';">
                     </div>
-                    <div class="h-44 bg-[var(--muted-orange)] rounded-lg shadow-md overflow-hidden flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
-                        <img src="https://www.sessionlab.com/wp-content/uploads/man-speaking-at-a-corporate-workshop.jpg" alt="Workshop Activity Photo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/220x180/FFA500/FFFFFF?text=Training+Image+2';">
+                    <div class="h-44 bg-gray-200 rounded-lg shadow-md overflow-hidden flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                        <img src="https://www.sessionlab.com/wp-content/uploads/man-speaking-at-a-corporate-workshop.jpg" alt="Workshop Activity Photo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/220x180/60A5FA/FFFFFF?text=Training+2';">
                     </div>
-                    <div class="h-44 bg-[var(--muted-green)] rounded-lg shadow-md overflow-hidden flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
-                        <img src="https://www.shutterstock.com/image-photo/mature-latin-manager-mentor-talking-600nw-2322560109.jpg" alt="Coaching Session Photo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/220x180/2ECC71/FFFFFF?text=Training+Image+3';">
+                    <div class="h-44 bg-gray-200 rounded-lg shadow-md overflow-hidden flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                        <img src="https://www.shutterstock.com/image-photo/mature-latin-manager-mentor-talking-600nw-2322560109.jpg" alt="Coaching Session Photo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/220x180/3B82F6/FFFFFF?text=Training+3';">
                     </div>
-                    <div class="h-44 bg-[var(--muted-orange)] rounded-lg shadow-md overflow-hidden flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
-                        <img src="https://freedesignfile.com/upload/2018/02/Corporate-Design-Team-Stock-Photo-01.jpg" alt="Team Celebration Photo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/220x180/FFA500/FFFFFF?text=Training+Image+4';">
+                    <div class="h-44 bg-gray-200 rounded-lg shadow-md overflow-hidden flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                        <img src="https://freedesignfile.com/upload/2018/02/Corporate-Design-Team-Stock-Photo-01.jpg" alt="Team Celebration Photo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/220x180/60A5FA/FFFFFF?text=Training+4';">
                     </div>
                 </div>
             </section>
 
             <!-- Media Container - Video Placeholder 2 -->
             <div class="text-center my-12 media-container-video">
-                <div class="bg-[var(--dark-text)] min-h-[350px] aspect-video max-w-4xl mx-auto flex items-center justify-center rounded-xl shadow-2xl overflow-hidden">
-                    <!-- Placeholder for video content with green/orange colors -->
+                <div class="bg-gray-800 min-h-[350px] aspect-video max-w-4xl mx-auto flex items-center justify-center rounded-xl shadow-2xl overflow-hidden">
                     <video src="./istockphoto-1036872804-640_adpp_is.mp4" autoplay loop muted playsinline class="w-full h-full object-cover rounded-xl" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"></video>
-                    <div class="text-[var(--muted-orange)] text-lg p-4" style="display:none;">More video content coming soon!</div>
+                    <div class="text-gray-300 text-lg p-4" style="display:none;">More video content coming soon!</div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Fixed Action Buttons (Scroll and WhatsApp) -->
+    <!-- Fixed Action Buttons -->
     <div class="fixed-action-btn">
         <button id="scroll-to-top" class="action-button scroll-button" aria-label="Scroll to Top">
             <i class="fas fa-arrow-up"></i>
@@ -600,147 +320,95 @@
         </a>
     </div>
 
-    <!-- Footer Section -->
-    <footer class="bg-[var(--dark-text)] text-white py-10 mt-auto footer-active">
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10 mt-auto">
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                <!-- Footer Left Section - Logo and Description -->
-                <div class="text-center md:text-left">
-                    <a href="index.html" class="footer-logo">Folk<span class="text-[var(--primary-orange)]">Drive</span></a>
-                    <p class="mt-4 text-sm leading-relaxed">Driving sales excellence and process efficiency for sustainable growth.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
+                <div>
+                    <a href="index.html" class="inline-block mb-4 text-3xl font-extrabold text-white hover:text-gray-300 transition-colors duration-300">Folk<span class="text-blue-500">drive</span></a>
+                    <p class="mt-2 text-sm leading-relaxed text-gray-400">Driving sales excellence and process efficiency for sustainable growth.</p>
                 </div>
-                <!-- Footer Middle Section - Company Links -->
-                <div class="text-center md:text-left">
+                <div>
                     <h4 class="font-bold text-xl mb-4 text-white">Company</h4>
                     <ul class="space-y-2">
-                        <li><a href="./about.html" class="flex items-center justify-center md:justify-start space-x-2 transition-colors duration-300"><i class="fas fa-info-circle"></i> <span>About Us</span></a></li>
-                        <li><a href="./services.html" class="flex items-center justify-center md:justify-start space-x-2 transition-colors duration-300"><i class="fas fa-handshake"></i> <span>Services</span></a></li>
-                        <li><a href="./methodology.html" class="flex items-center justify-center md:justify-start space-x-2 font-semibold"><i class="fas fa-rocket"></i> <span>Methodology</span></a></li>
+                        <li><a href="./about.html" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-info-circle"></i> <span>About Us</span></a></li>
+                        <li><a href="./services.html" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-handshake"></i> <span>Services</span></a></li>
+                        <li><a href="./methodology.html" class="flex items-center justify-center md:justify-start space-x-2 text-white font-semibold"><i class="fas fa-rocket"></i> <span>Methodology</span></a></li>
                     </ul>
                 </div>
-                <!-- Footer Right Section - Contact Information -->
-                <div class="text-center md:text-left">
+                <div>
                     <h4 class="font-bold text-xl mb-4 text-white">Contact</h4>
                     <ul class="space-y-2">
-                        <li><a href="mailto:info@folkdrive.com" class="flex items-center justify-center md:justify-start space-x-2 transition-colors duration-300"><i class="fas fa-envelope"></i> <span>info@folkdrive.com</span></a></li>
-                        <li><a href="tel:+919916245531" class="flex items-center justify-center md:justify-start space-x-2 transition-colors duration-300"><i class="fas fa-phone"></i> <span>+919916245531</span></a></li>
-                        <li><a href="./contact.html" class="flex items-center justify-center md:justify-start space-x-2 transition-colors duration-300"><i class="fas fa-address-book"></i> <span>Contact Form</span></a></li>
+                        <li><a href="mailto:info@folkdrive.com" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-envelope"></i> <span>info@folkdrive.com</span></a></li>
+                        <li><a href="tel:+919916245531" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-phone"></i> <span>+919916245531</span></a></li>
+                        <li><a href="./contact.html" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-address-book"></i> <span>Contact Form</span></a></li>
                     </ul>
                 </div>
             </div>
-            <!-- Copyright Section -->
-            <div class="text-center text-sm border-t border-[var(--dark-green)] pt-6">
-                <p>&copy; <span id="currentYear"></span> Folkdrive. All Rights Reserved.</p>
+            <div class="text-center text-sm border-t border-gray-700 pt-6">
+                <p class="text-gray-500">&copy; <span id="currentYear"></span> Folkdrive. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
+    
     <script>
-        // JavaScript for Scroll to Top/Bottom
-        const scrollToTopButton = document.getElementById('scroll-to-top');
-        const scrollToBottomButton = document.getElementById('scroll-to-bottom');
-
-        scrollToTopButton.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        scrollToBottomButton.addEventListener('click', () => {
-            window.scrollTo({
-                top: document.documentElement.scrollHeight,
-                behavior: 'smooth'
-            });
-        });
-
-        // --- Page Opening Animation Logic ---
-        window.onload = function() {
-            // Dynamically sets the current year in the footer
-            const currentYearSpan = document.getElementById('currentYear');
-            if (currentYearSpan) {
-                currentYearSpan.textContent = new Date().getFullYear();
-            }
-
-            // Get references to elements for animation
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Elements ---
+            const scrollToTopBtn = document.getElementById('scroll-to-top');
+            const scrollToBottomBtn = document.getElementById('scroll-to-bottom');
             const preloader = document.getElementById('preloader');
-            const header = document.querySelector('header');
-            const pageTitleBanner = document.querySelector('.page-title-banner');
-            const methodologySection = document.querySelector('.methodology-section');
-            const trainingSection = document.querySelector('.training-section');
-            const mediaVideoContainers = document.querySelectorAll('.media-container-video');
+            const body = document.body;
+            
+            // --- Scroll Button Logic ---
+            const handleScrollButtons = () => {
+                const scrollY = window.scrollY;
+                const pageHeight = document.body.offsetHeight;
+                const viewportHeight = window.innerHeight;
 
-            const fixedActionButtons = document.querySelector('.fixed-action-btn');
-            const footer = document.querySelector('footer');
+                scrollToTopBtn.style.display = scrollY > 300 ? 'flex' : 'none';
+                scrollToBottomBtn.style.display = (pageHeight - (scrollY + viewportHeight) > 300) ? 'flex' : 'none';
+            };
+            
+            scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            scrollToBottomBtn.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+            window.addEventListener('scroll', handleScrollButtons);
 
-            // Set initial display of fixed buttons to flex for proper layout before animation
-            fixedActionButtons.style.display = 'flex';
+            // --- Page Load & Animation Logic ---
+            const initPage = () => {
+                document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-            // Delay before preloader starts fading out (e.g., allow logo/spinner to show)
-            setTimeout(() => {
-                preloader.style.opacity = '0'; // Start preloader fade out
-
-                // After preloader transition finishes, hide it completely and start content animations
                 setTimeout(() => {
-                    preloader.style.display = 'none'; // Hide preloader
-                    document.body.style.overflow = 'auto'; // Re-enable scrolling
-
-                    let currentDelay = 0; // Cumulative delay
-
-                    // Animate header first
-                    setTimeout(() => {
-                        header.classList.add('header-active');
-                    }, currentDelay);
-                    currentDelay += 300; // Delay for next animation after header starts moving
-
-                    // Animate page title banner
-                    if (pageTitleBanner) {
-                        setTimeout(() => {
-                            pageTitleBanner.classList.add('content-active');
-                        }, currentDelay);
-                        currentDelay += 300;
-                    }
-
-                    // Animate methodology section
-                    if (methodologySection) {
-                        setTimeout(() => {
-                            methodologySection.classList.add('content-active');
-                        }, currentDelay);
-                        currentDelay += 300;
-                    }
-
-                    // Animate first media video container
-                    if (mediaVideoContainers[0]) {
-                        setTimeout(() => {
-                            mediaVideoContainers[0].classList.add('content-active');
-                        }, currentDelay);
-                        currentDelay += 300;
-                    }
-
-                    // Animate training section
-                    if (trainingSection) {
-                        setTimeout(() => {
-                            trainingSection.classList.add('content-active');
-                        }, currentDelay);
-                        currentDelay += 300;
-                    }
-
-                    // Animate second media video container (if it exists)
-                    if (mediaVideoContainers[1]) {
-                        setTimeout(() => {
-                            mediaVideoContainers[1].classList.add('content-active');
-                        }, currentDelay);
-                        currentDelay += 300;
-                    }
-
-                    // Animate fixed action buttons and footer
-                    setTimeout(() => {
-                        fixedActionButtons.classList.add('fixed-btn-active');
-                        footer.classList.add('footer-active');
-                    }, currentDelay);
+                    preloader.style.opacity = '0';
                     
-                }, 700); // Duration of preloader fade-out transition
-            }, 1000); // Initial delay before preloader starts fading
-        };
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                        body.classList.remove('no-scroll');
+
+                        const elementsToAnimate = [
+                            { el: document.querySelector('header'), cls: 'header-active' },
+                            { el: document.querySelector('.page-title-banner'), cls: 'content-active' },
+                            { el: document.querySelector('.methodology-section'), cls: 'content-active' },
+                            ...Array.from(document.querySelectorAll('.media-container-video')).map(el => ({ el, cls: 'content-active' })),
+                            { el: document.querySelector('.training-section'), cls: 'content-active' },
+                            { el: document.querySelector('.fixed-action-btn'), cls: 'fixed-btn-active' },
+                            { el: document.querySelector('footer'), cls: 'footer-active' }
+                        ];
+
+                        let delay = 0;
+                        elementsToAnimate.forEach(item => {
+                            if (item.el) {
+                                setTimeout(() => item.el.classList.add(item.cls), delay);
+                                delay += 150;
+                            }
+                        });
+                    }, 700);
+                }, 1000);
+            };
+            
+            // Run initialization
+            initPage();
+            handleScrollButtons();
+        });
     </script>
 </body>
 </html>
