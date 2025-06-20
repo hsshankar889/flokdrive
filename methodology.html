@@ -4,14 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Methodology | Folkdrive</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Google Fonts: Inter -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -26,24 +21,51 @@
             --text-primary: #1f2937; /* Tailwind gray-800 */
             --text-secondary: #4b5563;/* Tailwind gray-600 */
             --border-color: #e5e7eb; /* Tailwind gray-200 */
+
+            /* New colors for methodology cards */
+            --spin-color: #3b82f6;   /* Blue-500 */
+            --challenger-color: #f59e0b; /* Amber-500 */
+            --value-based-color: #10b981; /* Emerald-500 */
         }
-        
-        /* Base Styles */
+
+        /* Base Styles: Applies Inter font and sets default background/text colors */
         body {
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             background-color: var(--light-bg);
             color: var(--text-primary);
+            min-height: 100vh; /* Ensure full height */
+            position: relative; /* For footer positioning */
         }
 
+        /* Prevents body scroll during preloader display */
         .no-scroll {
             overflow: hidden;
         }
 
         /* --- Preloader Styles --- */
         #preloader {
+            position: fixed;
+            inset: 0;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
             transition: opacity 0.7s ease-in-out;
+        }
+        #preloader .flex-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #preloader img {
+            height: 80px;
+            width: auto;
+            margin-bottom: 16px;
+            animation: pulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+            border-radius: 8px;
         }
         .spinner {
             width: 56px;
@@ -57,17 +79,61 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
 
         /* --- Header Styles --- */
         header {
             background-color: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 50;
+            padding: 12px 16px; /* py-3 px-4 */
+            display: block; /* Removed flex for fixed layout */
         }
+        header .container {
+            max-width: 1200px; /* Fixed width */
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header a img {
+            height: 50px; /* Increased logo size */
+            width: auto;
+            border-radius: 8px;
+        }
+        header nav ul {
+            display: flex; /* Still flex for horizontal menu items */
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 8px; /* space-x-2 */
+            font-size: 16px; /* text-base */
+        }
+        header nav a {
+            display: flex;
+            align-items: center;
+            gap: 4px; /* space-x-1 */
+            padding: 8px; /* p-2 */
+            border-radius: 6px; /* rounded-md */
+            transition: all 0.3s ease; /* transition-colors duration-300 */
+            text-decoration: none;
+            white-space: nowrap; /* Prevent wrapping */
+        }
+        /* Active link styling - uses primary color */
         header nav a.active {
             background-color: var(--primary-color);
             color: white;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
         }
+        /* Inactive link styling and hover effects - uses text-secondary and a subtle hover color */
         header nav a:not(.active) {
             color: var(--text-secondary);
         }
@@ -75,55 +141,272 @@
             background-color: #eff6ff; /* blue-50 */
             color: var(--primary-color);
         }
+        header nav span {
+            display: inline; /* Always show text */
+        }
+
+        main {
+            flex-grow: 1;
+            padding-top: 98px; /* Adjusted for increased fixed header height (50px logo + padding) */
+            display: block;
+        }
 
         /* --- Page Title Banner --- */
         .page-title-banner {
             background: linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('https://images.unsplash.com/photo-1542744095-291d1f67b221?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+            color: white; /* Ensure text is white on dark background */
+            padding-top: 64px; /* py-16 */
+            padding-bottom: 64px; /* py-16 */
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px; /* mb-10 */
+            border-bottom-left-radius: 24px; /* rounded-b-3xl */
+            border-bottom-right-radius: 24px; /* rounded-b-3xl */
         }
-        
+        .page-title-banner .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px; /* px-4 */
+        }
+        .page-title-banner h1 {
+            font-size: 48px; /* text-5xl */
+            font-weight: 800; /* font-extrabold */
+            margin-bottom: 16px; /* mb-4 */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2); /* drop-shadow-md */
+        }
+        .page-title-banner p {
+            font-size: 24px; /* text-2xl */
+            opacity: 0.9;
+        }
+
+        /* Global container for main content */
+        .main-content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px; /* px-4 */
+        }
+
         /* --- Methodology & Feature Cards --- */
+        .methodology-section {
+            display: flex; /* Changed from grid to flex for simplicity */
+            justify-content: space-around; /* Distribute items */
+            flex-wrap: nowrap; /* Prevent wrapping */
+            gap: 32px; /* gap-8 */
+            margin-bottom: 48px; /* mb-12 */
+            background-color: transparent;
+            padding: 0;
+            box-shadow: none;
+        }
         .feature-card {
+            background-color: white;
+            padding: 0;
+            border-radius: 16px; /* rounded-2xl */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* shadow-xl */
+            display: flex;
+            flex-direction: column;
+            width: 380px; /* Fixed width for cards */
+            transition: all 0.3s ease; /* transform transition-transform duration-300 */
+            overflow: hidden;
             border: 1px solid var(--border-color);
         }
+        .feature-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.1); /* hover:shadow-2xl */
+        }
         .card-header {
-            font-size: 1.25rem; /* 20px */
+            font-size: 20px; /* 1.25rem */
             font-weight: 700;
-            padding: 1rem;
+            padding: 16px; /* 1rem */
             color: white;
-            background-color: var(--primary-color);
+            text-align: center;
+            border-top-left-radius: 16px; /* rounded-t-xl */
+            border-top-right-radius: 16px; /* rounded-t-xl */
+        }
+        /* Specific header colors for each methodology card */
+        .feature-card:nth-child(1) .card-header { /* SPIN Selling */
+            background-color: var(--spin-color);
+        }
+        .feature-card:nth-child(2) .card-header { /* Challenger Sale */
+            background-color: var(--challenger-color);
+        }
+        .feature-card:nth-child(3) .card-header { /* Value-Based Selling */
+            background-color: var(--value-based-color);
+        }
+
+        .card-body {
+            padding: 32px; /* p-8 */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-body p {
+            color: var(--text-secondary); /* text-gray-600 */
+            line-height: 1.625; /* leading-relaxed */
+            margin-bottom: 16px; /* mb-4 */
+        }
+        .card-body ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 24px; /* mb-6 */
+            line-height: 1.5;
+            flex-grow: 1; /* Allows it to take available space */
+        }
+        .card-body ul li {
+            position: relative;
+            padding-left: 28px; /* pl-7 */
+            color: var(--text-primary); /* text-gray-700 */
+            margin-bottom: 12px; /* space-y-3 equivalent */
         }
         .card-body ul i {
-             color: var(--primary-color);
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            top: 4px; /* Adjust as needed */
         }
         .card-body p.italic {
-             color: var(--text-secondary);
+            font-size: 14px; /* text-sm */
+            border-top: 1px solid var(--border-color); /* border-t border-gray-200 */
+            padding-top: 16px; /* pt-4 */
+            margin-top: auto; /* mt-auto */
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        /* --- Media Container - Video Placeholder --- */
+        .media-container-video {
+            text-align: center;
+            margin-top: 48px; /* my-12 */
+            margin-bottom: 48px; /* my-12 */
+        }
+        .media-container-video .bg-gray-800 {
+            background-color: #1f2937; /* gray-800 */
+            min-height: 350px;
+            width: 800px; /* max-w-4xl fixed */
+            height: 450px; /* Added a fixed height to maintain aspect ratio without 'aspect-video' */
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px; /* rounded-xl */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* shadow-2xl */
+            overflow: hidden;
+        }
+        .media-container-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px; /* rounded-xl */
+        }
+        .media-container-video .text-gray-300 {
+            color: #d1d5db; /* gray-300 */
+            font-size: 18px; /* text-lg */
+            padding: 16px; /* p-4 */
         }
 
         /* --- Training Section --- */
         .training-section {
-            background-color: white;
-            border-radius: 1.5rem;
+            background-color: var(--light-bg); /* Use light background for this section */
+            padding: 32px; /* p-8 */
+            border-radius: 16px; /* rounded-2xl */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* shadow-xl */
+            margin-bottom: 48px; /* mb-12 */
+        }
+        .training-section h2 {
+            color: var(--text-primary); /* text-gray-900 */
+            font-size: 36px; /* text-4xl */
+            font-weight: 800; /* font-extrabold */
+            text-align: center;
+            margin-bottom: 40px; /* mb-10 */
+            position: relative;
+            padding-bottom: 16px; /* pb-4 */
         }
         .training-section h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+            width: 80px; /* w-20 */
+            height: 4px; /* h-1 */
             background-color: var(--primary-color);
+            border-radius: 9999px; /* rounded-full */
+        }
+        .training-section .grid {
+            display: flex; /* Changed from grid for fixed layout */
+            justify-content: space-between;
+            gap: 24px; /* gap-6 */
+            margin-top: 32px; /* mt-8 */
+        }
+        .training-section .bg-gray-100 {
+            background-color: #f3f4f6; /* gray-100 */
+            padding: 24px; /* p-6 */
+            border-radius: 8px; /* rounded-lg */
+            border-left: 4px solid var(--primary-color); /* border-l-4 border-blue-500 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05); /* shadow-md */
+            transition: all 0.3s ease; /* transition-all duration-300 */
+            width: 280px; /* Fixed width for training cards */
+        }
+        .training-section .bg-gray-100:hover {
+            background-color: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* hover:shadow-lg */
+            transform: translateY(-4px); /* hover:-translate-y-1 */
+        }
+        .training-section h3 {
+            font-size: 20px; /* text-xl */
+            font-weight: 600; /* font-semibold */
+            color: var(--text-primary); /* text-gray-800 */
+            margin-bottom: 12px; /* mb-3 */
+        }
+        .training-section p {
+            color: var(--text-secondary); /* text-gray-600 */
+            font-size: 14px; /* text-sm */
+        }
+
+        /* --- Image Gallery --- */
+        .image-gallery {
+            display: flex; /* Changed from grid for fixed layout */
+            justify-content: space-between;
+            gap: 20px; /* gap-5 */
+            margin-top: 40px; /* mt-10 */
+        }
+        .image-gallery > div {
+            height: 176px; /* h-44 */
+            background-color: #e5e7eb; /* gray-200 */
+            border-radius: 8px; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05); /* shadow-md */
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease; /* transition-transform duration-300 */
+            width: 280px; /* Fixed width for gallery images */
+        }
+        .image-gallery > div:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* hover:shadow-lg */
+        }
+        .image-gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* --- Fixed Action Button Styles --- */
         .fixed-action-btn {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
+            bottom: 32px; /* 2rem */
+            right: 32px; /* 2rem */
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 12px; /* 0.75rem */
             z-index: 40;
             opacity: 0;
             transform: scale(0.9);
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
         .action-button {
-            width: 3.5rem;
-            height: 3.5rem;
+            width: 56px; /* 3.5rem */
+            height: 56px; /* 3.5rem */
             border-radius: 9999px;
             display: flex;
             align-items: center;
@@ -133,7 +416,9 @@
             border: none;
             cursor: pointer;
             color: white;
+            font-size: 20px; /* Icon size */
         }
+        /* Specific button colors and hover effects - using text-secondary/primary and WhatsApp green */
         .action-button.scroll-button {
             background-color: var(--text-secondary);
         }
@@ -150,8 +435,9 @@
             transform: translateY(-4px) scale(1.05);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
-        
+
         /* --- Animation Classes --- */
+        /* Initial state and transition properties for elements before animation */
         header, .page-title-banner, .methodology-section, .media-container-video, .training-section, .fixed-action-btn, footer {
             opacity: 0;
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
@@ -159,155 +445,297 @@
         header { transform: translateY(-100%); }
         .page-title-banner, .methodology-section, .media-container-video, .training-section, footer { transform: translateY(20px); }
         .fixed-action-btn { transform: scale(0); }
-        
+
+        /* Target states for animated elements */
         .header-active { transform: translateY(0); opacity: 1; }
         .content-active { transform: translateY(0); opacity: 1; }
         .fixed-btn-active { transform: scale(1); opacity: 1; }
         .footer-active { transform: translateY(0); opacity: 1; }
+
+        /* Footer specific styling */
+        footer {
+            background-color: #111827; /* gray-900 */
+            color: white;
+            padding-top: 40px; /* py-10 */
+            padding-bottom: 40px; /* py-10 */
+            margin-top: auto;
+            text-align: center; /* Center content in fixed layout */
+        }
+        footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px; /* px-4 */
+        }
+        footer .footer-content {
+            display: flex; /* Replaced grid with flex for fixed layout */
+            justify-content: space-around; /* Distribute items */
+            margin-bottom: 32px; /* mb-8 */
+            text-align: left; /* Aligns text within each column */
+            flex-wrap: nowrap; /* Prevent wrapping */
+            gap: 32px;
+        }
+        footer .footer-col {
+            width: 300px; /* Fixed width for columns */
+        }
+        footer h4 {
+            font-weight: 700; /* font-bold */
+            font-size: 20px; /* text-xl */
+            margin-bottom: 16px; /* mb-4 */
+            color: white;
+        }
+        footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            line-height: 1.5;
+        }
+        footer ul li {
+            margin-bottom: 8px; /* space-y-2 */
+        }
+        footer ul a {
+            display: flex;
+            align-items: center;
+            gap: 8px; /* space-x-2 */
+            color: #9ca3af; /* gray-400 */
+            text-decoration: none;
+            transition: all 0.3s ease; /* transition-colors duration-300 */
+            justify-content: flex-start; /* Align icon and text to start */
+        }
+        footer ul a:hover {
+            color: white;
+        }
+        footer .footer-bottom {
+            text-align: center;
+            font-size: 14px; /* text-sm */
+            border-top: 1px solid #374151; /* border-t border-gray-700 */
+            padding-top: 24px; /* pt-6 */
+        }
+        footer .footer-bottom p {
+            color: #6b7280; /* gray-500 */
+        }
+
+        /* Responsive Design: Tablet and Mobile Adjustments */
+        @media (max-width: 1200px) {
+            .methodology-section, .training-section .grid, .image-gallery, footer .footer-content {
+                flex-wrap: wrap; /* Allow wrapping on smaller screens */
+                justify-content: center; /* Center items when wrapped */
+            }
+
+            .feature-card, .training-section .bg-gray-100, .image-gallery > div, footer .footer-col {
+                width: 100%; /* Full width on smaller screens */
+                max-width: 450px; /* Max width for cards/columns to prevent them from being too wide on tablet */
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .methodology-section, .training-section .grid, .image-gallery, footer .footer-content {
+                gap: 24px; /* Reduce gap on smaller screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column; /* Stack logo and nav vertically */
+                align-items: center;
+            }
+            header nav ul {
+                flex-direction: column; /* Stack nav items vertically */
+                text-align: center;
+                margin-top: 10px;
+                gap: 4px;
+            }
+            header nav a {
+                justify-content: center; /* Center nav items */
+                padding: 6px 12px;
+            }
+            header {
+                padding: 8px 16px;
+            }
+            main {
+                padding-top: 160px; /* Adjust padding for stacked header */
+            }
+            .page-title-banner h1 {
+                font-size: 36px; /* text-4xl */
+            }
+            .page-title-banner p {
+                font-size: 20px; /* text-xl */
+            }
+            .methodology-section, .training-section .grid, .image-gallery, footer .footer-content {
+                padding: 0 8px; /* Less padding on very small screens */
+            }
+            .feature-card, .training-section .bg-gray-100, .image-gallery > div, footer .footer-col {
+                max-width: 90%; /* Adjust max-width for very small screens */
+            }
+            .media-container-video .bg-gray-800 {
+                width: 90%; /* Make video container responsive */
+                height: 300px; /* Adjust height */
+            }
+            .training-section h2 {
+                font-size: 28px; /* Adjust heading size */
+            }
+            .fixed-action-btn {
+                bottom: 20px;
+                right: 20px;
+                gap: 8px;
+            }
+            .action-button {
+                width: 48px;
+                height: 48px;
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header nav ul {
+                font-size: 14px;
+            }
+            header nav span {
+                display: inline; /* Ensure text is always shown */
+            }
+            .page-title-banner h1 {
+                font-size: 32px;
+            }
+            .page-title-banner p {
+                font-size: 18px;
+            }
+            .card-body ul li {
+                padding-left: 24px;
+                font-size: 15px;
+            }
+            .training-section h2 {
+                font-size: 24px;
+            }
+        }
+
     </style>
 </head>
-<body class="flex flex-col min-h-screen no-scroll">
-    <!-- Preloader Overlay -->
-    <div id="preloader" class="fixed inset-0 bg-white flex items-center justify-center z-[1000]">
-        <div class="flex flex-col items-center">
-            <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="h-20 w-auto mb-4 animate-pulse rounded-lg">
-            <div class="spinner"></div>
+<body class="no-scroll">
+    <div id="preloader">
+        <div class="flex-col">
+            <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo"> <div class="spinner"></div>
         </div>
     </div>
 
-    <!-- Header Section -->
-    <header class="bg-white text-gray-800 shadow-lg fixed top-0 left-0 w-full z-50">
-        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between">
+    <header>
+        <div class="container">
             <a href="index.html">
-                <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo" class="rounded-lg h-10 w-auto">
-            </a>
+                <img src="./logo-removebg-preview.jpg" alt="FolkDrive Logo"> </a>
             <nav>
-                <ul class="flex flex-wrap justify-center md:space-x-2 text-sm md:text-base">
-                    <li><a href="./index.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300"><i class="fas fa-home"></i> <span class="hidden sm:inline">Home</span></a></li>
-                    <li><a href="./services.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300"><i class="fas fa-handshake"></i> <span class="hidden sm:inline">Services</span></a></li>
-                    <li><a href="./methodology.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300 active"><i class="fas fa-rocket"></i> <span class="hidden sm:inline">Methodology</span></a></li>
-                    <li><a href="./about.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300"><i class="fas fa-info-circle"></i> <span class="hidden sm:inline">About Us</span></a></li>
-                    <li><a href="./contact.html" class="flex items-center space-x-1 p-2 rounded-md transition-colors duration-300"><i class="fas fa-envelope"></i> <span class="hidden sm:inline">Contact</span></a></li>
+                <ul>
+                    <li><a href="./index.html"><i class="fas fa-home"></i> <span>Home</span></a></li>
+                    <li><a href="./services.html"><i class="fas fa-handshake"></i> <span>Services</span></a></li>
+                    <li><a href="./methodology.html" class="active"><i class="fas fa-rocket"></i> <span>Methodology</span></a></li>
+                    <li><a href="./about.html"><i class="fas fa-info-circle"></i> <span>About Us</span></a></li>
+                    <li><a href="./contact.html"><i class="fas fa-envelope"></i> <span>Contact</span></a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <main class="flex-grow pt-[88px] md:pt-[76px]">
-        <!-- Page Title Banner Section -->
-        <div class="py-16 text-center shadow-lg mb-10 rounded-b-3xl page-title-banner">
-            <div class="container mx-auto px-4">
-                <h1 class="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-md text-white">Sales Methodology Toolkit</h1>
-                <p class="text-xl md:text-2xl opacity-90 text-white">Proven strategies to transform your sales approach and drive results</p>
+    <main>
+        <div class="page-title-banner">
+            <div class="container">
+                <h1>Sales Methodology Toolkit</h1>
+                <p>Proven strategies to transform your sales approach and drive results</p>
             </div>
         </div>
 
-        <div class="container mx-auto px-4">
-            <!-- Methodology Section -->
-            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 methodology-section bg-transparent p-0 shadow-none">
-                <!-- SPIN Selling Card -->
-                <div class="bg-white p-0 rounded-2xl shadow-xl flex flex-col transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl feature-card overflow-hidden">
-                    <div class="card-header text-center">SPIN Selling</div>
-                    <div class="card-body p-8 flex-grow flex flex-col">
-                        <p class="text-gray-600 leading-relaxed mb-4">A structured approach focusing on customer needs through four key question types:</p>
-                        <ul class="list-none p-0 mb-6 space-y-3">
-                            <li class="relative pl-7 text-gray-700"><i class="fas fa-circle-info absolute left-0 top-1"></i> <strong>Situation</strong> - Understanding the customer's current state</li>
-                            <li class="relative pl-7 text-gray-700"><i class="fas fa-triangle-exclamation absolute left-0 top-1"></i> <strong>Problem</strong> - Identifying pain points and challenges</li>
-                            <li class="relative pl-7 text-gray-700"><i class="fas fa-lightbulb absolute left-0 top-1"></i> <strong>Implication</strong> - Exploring consequences of unresolved problems</li>
-                            <li class="relative pl-7 text-gray-700"><i class="fas fa-sack-dollar absolute left-0 top-1"></i> <strong>Need-payoff</strong> - Highlighting value of your solution</li>
+        <div class="main-content-container">
+            <section class="methodology-section">
+                <div class="feature-card">
+                    <div class="card-header">SPIN Selling</div>
+                    <div class="card-body">
+                        <p>A structured approach focusing on customer needs through four key question types:</p>
+                        <ul>
+                            <li><i class="fas fa-circle-info"></i> <strong>Situation</strong> - Understanding the customer's current state</li>
+                            <li><i class="fas fa-triangle-exclamation"></i> <strong>Problem</strong> - Identifying pain points and challenges</li>
+                            <li><i class="fas fa-lightbulb"></i> <strong>Implication</strong> - Exploring consequences of unresolved problems</li>
+                            <li><i class="fas fa-sack-dollar"></i> <strong>Need-payoff</strong> - Highlighting value of your solution</li>
                         </ul>
-                        <p class="text-sm border-t border-gray-200 pt-4 mt-auto italic">Research shows SPIN selling increases close rates by 17% compared to traditional methods.</p>
+                        <p class="italic">Research shows SPIN selling increases close rates by 17% compared to traditional methods.</p>
                     </div>
                 </div>
 
-                <!-- Challenger Sale Card -->
-                <div class="bg-white p-0 rounded-2xl shadow-xl flex flex-col transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl feature-card overflow-hidden">
-                    <div class="card-header text-center" style="background-color: var(--text-secondary);">Challenger Sale</div>
-                    <div class="card-body p-8 flex-grow flex flex-col">
-                        <p class="text-gray-600 leading-relaxed mb-4">Three core strategies for modern selling:</p>
-                        <ul class="list-none p-0 mb-6 space-y-3">
-                            <li class="relative pl-7 text-gray-700"><i class="fas fa-chalkboard-user absolute left-0 top-1"></i> <strong>Teaching</strong> - Providing unique insights that challenge customer thinking</li>
-                            <li class="relative pl-7 text-gray-700"><i class="fas fa-arrows-to-circle absolute left-0 top-1"></i> <strong>Tailoring</strong> - Adapting messages for different stakeholders</li>
-                            <li class="relative pl-7 text-gray-700"><i class="fas fa-handshake-angle absolute left-0 top-1"></i> <strong>Taking Control</strong> - Confidently guiding the sales conversation</li>
+                <div class="feature-card">
+                    <div class="card-header">Challenger Sale</div>
+                    <div class="card-body">
+                        <p>Three core strategies for modern selling:</p>
+                        <ul>
+                            <li><i class="fas fa-chalkboard-user"></i> <strong>Teaching</strong> - Providing unique insights that challenge customer thinking</li>
+                            <li><i class="fas fa-arrows-to-circle"></i> <strong>Tailoring</strong> - Adapting messages for different stakeholders</li>
+                            <li><i class="fas fa-handshake-angle"></i> <strong>Taking Control</strong> - Confidently guiding the sales conversation</li>
                         </ul>
-                        <p class="text-sm border-t border-gray-200 pt-4 mt-auto italic">Gartner reports Challenger reps outperform others by 54% in complex sales environments.</p>
+                        <p class="italic">Gartner reports Challenger reps outperform others by 54% in complex sales environments.</p>
                     </div>
                 </div>
 
-                <!-- Value-Based Selling Card -->
-                <div class="bg-white p-0 rounded-2xl shadow-xl flex flex-col transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl feature-card overflow-hidden">
-                    <div class="card-header rounded-t-xl text-center" style="background-color: var(--dark-bg);">Value-Based Selling</div>
-                    <div class="card-body p-8 flex-grow flex flex-col">
-                        <p class="text-gray-600 leading-relaxed mb-4">A customer-centric approach focused on tangible business outcomes:</p>
-                        <ul class="list-none p-0 mb-6 space-y-3">
-                            <li class="relative pl-7 text-gray-700"><i class="fas fa-calculator absolute left-0 top-1"></i> Articulating clear ROI calculations</li>
-                            <li class="relative pl-7 text-gray-700"><i class="fas fa-chart-line absolute left-0 top-1"></i> Demonstrating measurable benefits aligned to business goals</li>
-                            <li class="relative pl-7 text-gray-700"><i class="fas fa-tags absolute left-0 top-1"></i> Quantifying impact rather than discussing features</li>
-                            <li class="relative pl-7 text-gray-700"><i class="fas fa-users-line absolute left-0 top-1"></i> Building business case with customer stakeholders</li>
+                <div class="feature-card">
+                    <div class="card-header">Value-Based Selling</div>
+                    <div class="card-body">
+                        <p>A customer-centric approach focused on tangible business outcomes:</p>
+                        <ul>
+                            <li><i class="fas fa-calculator"></i> Articulating clear ROI calculations</li>
+                            <li><i class="fas fa-chart-line"></i> Demonstrating measurable benefits aligned to business goals</li>
+                            <li><i class="fas fa-tags"></i> Quantifying impact rather than discussing features</li>
+                            <li><i class="fas fa-users-line"></i> Building business case with customer stakeholders</li>
                         </ul>
-                        <p class="text-sm border-t border-gray-200 pt-4 mt-auto italic">Value-based selling increases deal size by 23% and reduces sales cycles by 19%.</p>
+                        <p class="italic">Value-based selling increases deal size by 23% and reduces sales cycles by 19%.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Media Container - Video Placeholder 1 -->
-            <div class="text-center my-12 media-container-video">
-                <div class="bg-gray-800 min-h-[350px] aspect-video max-w-4xl mx-auto flex items-center justify-center rounded-xl shadow-2xl overflow-hidden">
-                    <video src="./istockphoto-1036766612-640_adpp_is.mp4" autoplay loop muted playsinline class="w-full h-full object-cover rounded-xl" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"></video>
-                    <div class="text-gray-300 text-lg p-4" style="display:none;">Engaging Sales Video coming soon!</div>
+            <div class="media-container-video">
+                <div class="bg-gray-800">
+                    <video src="./istockphoto-1036766612-640_adpp_is.mp4" autoplay loop muted playsinline type="video/mp4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"></video>
+                    <div class="text-gray-300" style="display:none;">Engaging Sales Video coming soon!</div>
                 </div>
             </div>
 
-            <!-- Training Section -->
-            <section class="p-8 rounded-2xl shadow-xl mb-12 training-section">
-                <h2 class="text-gray-900 text-3xl md:text-4xl font-extrabold text-center mb-10 relative pb-4 after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0 after:w-20 after:h-1 after:rounded-full">Hands-on Training & Skill Development</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-                    <div class="bg-gray-100 p-6 rounded-lg border-l-4 border-blue-500 shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">1. Role-Playing Simulations</h3>
-                        <p class="text-gray-600 text-sm">Immerse in realistic sales scenarios with guided feedback from coaches and peers. Develop muscle memory for critical conversations.</p>
+            <section class="training-section">
+                <h2>Hands-on Training & Skill Development</h2>
+                <div class="grid">
+                    <div class="bg-gray-100">
+                        <h3>1. Role-Playing Simulations</h3>
+                        <p>Immerse in realistic sales scenarios with guided feedback from coaches and peers. Develop muscle memory for critical conversations.</p>
                     </div>
-                    <div class="bg-gray-100 p-6 rounded-lg border-l-4 border-blue-500 shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">2. Interactive Workshops</h3>
-                        <p class="text-gray-600 text-sm">Collaborative learning through group exercises, case studies, and solution design challenges that mirror actual customer situations.</p>
+                    <div class="bg-gray-100">
+                        <h3>2. Interactive Workshops</h3>
+                        <p>Collaborative learning through group exercises, case studies, and solution design challenges that mirror actual customer situations.</p>
                     </div>
-                    <div class="bg-gray-100 p-6 rounded-lg border-l-4 border-blue-500 shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">3. Personalized Coaching</h3>
-                        <p class="text-gray-600 text-sm">One-on-one sessions to address individual challenges, refine techniques, and accelerate skill development with targeted feedback.</p>
+                    <div class="bg-gray-100">
+                        <h3>3. Personalized Coaching</h3>
+                        <p>One-on-one sessions to address individual challenges, refine techniques, and accelerate skill development with targeted feedback.</p>
                     </div>
-                    <div class="bg-gray-100 p-6 rounded-lg border-l-4 border-blue-500 shadow-md transition-all duration-300 hover:bg-white hover:shadow-lg hover:-translate-y-1">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">4. Sales Resources</h3>
-                        <p class="text-gray-600 text-sm">Access to playbooks, battle cards, and real-world success stories from top performers across industries.</p>
+                    <div class="bg-gray-100">
+                        <h3>4. Sales Resources</h3>
+                        <p>Access to playbooks, battle cards, and real-world success stories from top performers across industries.</p>
                     </div>
                 </div>
 
-                <!-- Image Gallery -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mt-10 image-gallery">
-                    <div class="h-44 bg-gray-200 rounded-lg shadow-md overflow-hidden flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
-                        <img src="https://library.ascd.org/m/3146668b527a8589/webimage-shutterstock_388588465.jpg" alt="Training Session Photo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/220x180/3B82F6/FFFFFF?text=Training+1';">
+                <div class="image-gallery">
+                    <div>
+                        <img src="https://library.ascd.org/m/3146668b527a8589/webimage-shutterstock_388588465.jpg" alt="Training Session Photo" onerror="this.src='https://placehold.co/280x176/3B82F6/FFFFFF?text=Training+1';">
                     </div>
-                    <div class="h-44 bg-gray-200 rounded-lg shadow-md overflow-hidden flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
-                        <img src="https://www.sessionlab.com/wp-content/uploads/man-speaking-at-a-corporate-workshop.jpg" alt="Workshop Activity Photo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/220x180/60A5FA/FFFFFF?text=Training+2';">
+                    <div>
+                        <img src="https://www.sessionlab.com/wp-content/uploads/man-speaking-at-a-corporate-workshop.jpg" alt="Workshop Activity Photo" onerror="this.src='https://placehold.co/280x176/60A5FA/FFFFFF?text=Training+2';">
                     </div>
-                    <div class="h-44 bg-gray-200 rounded-lg shadow-md overflow-hidden flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
-                        <img src="https://www.shutterstock.com/image-photo/mature-latin-manager-mentor-talking-600nw-2322560109.jpg" alt="Coaching Session Photo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/220x180/3B82F6/FFFFFF?text=Training+3';">
+                    <div>
+                        <img src="https://www.shutterstock.com/image-photo/mature-latin-manager-mentor-talking-600nw-2322560109.jpg" alt="Coaching Session Photo" onerror="this.src='https://placehold.co/280x176/3B82F6/FFFFFF?text=Training+3';">
                     </div>
-                    <div class="h-44 bg-gray-200 rounded-lg shadow-md overflow-hidden flex items-center justify-center transition-transform duration-300 hover:scale-105 hover:shadow-lg">
-                        <img src="https://freedesignfile.com/upload/2018/02/Corporate-Design-Team-Stock-Photo-01.jpg" alt="Team Celebration Photo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/220x180/60A5FA/FFFFFF?text=Training+4';">
+                    <div>
+                        <img src="https://freedesignfile.com/upload/2018/02/Corporate-Design-Team-Stock-Photo-01.jpg" alt="Team Celebration Photo" onerror="this.src='https://placehold.co/280x176/60A5FA/FFFFFF?text=Training+4';">
                     </div>
                 </div>
             </section>
 
-            <!-- Media Container - Video Placeholder 2 -->
-            <div class="text-center my-12 media-container-video">
-                <div class="bg-gray-800 min-h-[350px] aspect-video max-w-4xl mx-auto flex items-center justify-center rounded-xl shadow-2xl overflow-hidden">
-                    <video src="./istockphoto-1036872804-640_adpp_is.mp4" autoplay loop muted playsinline class="w-full h-full object-cover rounded-xl" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"></video>
-                    <div class="text-gray-300 text-lg p-4" style="display:none;">More video content coming soon!</div>
+            <div class="media-container-video">
+                <div class="bg-gray-800">
+                    <video src="./istockphoto-1036872804-640_adpp_is.mp4" autoplay loop muted playsinline controls type="video/mp4" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"></video>
+                    <div class="text-gray-300" style="display:none;">More video content coming soon!</div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Fixed Action Buttons -->
     <div class="fixed-action-btn">
         <button id="scroll-to-top" class="action-button scroll-button" aria-label="Scroll to Top">
             <i class="fas fa-arrow-up"></i>
@@ -320,37 +748,36 @@
         </a>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-10 mt-auto">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
-                <div>
-                    <a href="index.html" class="inline-block mb-4 text-3xl font-extrabold text-white hover:text-gray-300 transition-colors duration-300">Folk<span class="text-blue-500">drive</span></a>
-                    <p class="mt-2 text-sm leading-relaxed text-gray-400">Driving sales excellence and process efficiency for sustainable growth.</p>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <a href="index.html" class="inline-block mb-4 text-3xl font-extrabold text-white hover:text-gray-300 transition-colors duration-300"><span style="color: var(--primary-color);">Folkdrive</span></a>
+                    <p class="text-sm leading-relaxed text-gray-400">Driving sales excellence and process efficiency for sustainable growth.</p>
                 </div>
-                <div>
-                    <h4 class="font-bold text-xl mb-4 text-white">Company</h4>
-                    <ul class="space-y-2">
-                        <li><a href="./about.html" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-info-circle"></i> <span>About Us</span></a></li>
-                        <li><a href="./services.html" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-handshake"></i> <span>Services</span></a></li>
-                        <li><a href="./methodology.html" class="flex items-center justify-center md:justify-start space-x-2 text-white font-semibold"><i class="fas fa-rocket"></i> <span>Methodology</span></a></li>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="./about.html"><i class="fas fa-info-circle"></i> <span>About Us</span></a></li>
+                        <li><a href="./services.html"><i class="fas fa-handshake"></i> <span>Services</span></a></li>
+                        <li><a href="./methodology.html" style="color: white; font-weight: 600;"><i class="fas fa-rocket"></i> <span>Methodology</span></a></li>
                     </ul>
                 </div>
-                <div>
-                    <h4 class="font-bold text-xl mb-4 text-white">Contact</h4>
-                    <ul class="space-y-2">
-                        <li><a href="mailto:info@folkdrive.com" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-envelope"></i> <span>info@folkdrive.com</span></a></li>
-                        <li><a href="tel:+919916245531" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-phone"></i> <span>+919916245531</span></a></li>
-                        <li><a href="./contact.html" class="flex items-center justify-center md:justify-start space-x-2 text-gray-400 hover:text-white transition-colors duration-300"><i class="fas fa-address-book"></i> <span>Contact Form</span></a></li>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:info@folkdrive.com"><i class="fas fa-envelope"></i> <span>info@folkdrive.com</span></a></li>
+                        <li><a href="tel:+919916245531"><i class="fas fa-phone"></i> <span>+919916245531</span></a></li>
+                        <li><a href="./contact.html"><i class="fas fa-address-book"></i> <span>Contact Form</span></a></li>
                     </ul>
                 </div>
             </div>
-            <div class="text-center text-sm border-t border-gray-700 pt-6">
-                <p class="text-gray-500">&copy; <span id="currentYear"></span> Folkdrive. All Rights Reserved.</p>
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> Folkdrive. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- Elements ---
@@ -358,56 +785,83 @@
             const scrollToBottomBtn = document.getElementById('scroll-to-bottom');
             const preloader = document.getElementById('preloader');
             const body = document.body;
-            
+
             // --- Scroll Button Logic ---
             const handleScrollButtons = () => {
                 const scrollY = window.scrollY;
                 const pageHeight = document.body.offsetHeight;
                 const viewportHeight = window.innerHeight;
 
+                // Displays buttons based on scroll position, adapting to viewport size
                 scrollToTopBtn.style.display = scrollY > 300 ? 'flex' : 'none';
+                // Show scroll to bottom button only if there's content below the current viewport
                 scrollToBottomBtn.style.display = (pageHeight - (scrollY + viewportHeight) > 300) ? 'flex' : 'none';
             };
-            
+
+            // Event listeners for scroll buttons
             scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
             scrollToBottomBtn.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
             window.addEventListener('scroll', handleScrollButtons);
+
+            // Initial call to set button visibility on load
+            handleScrollButtons();
 
             // --- Page Load & Animation Logic ---
             const initPage = () => {
                 document.getElementById('currentYear').textContent = new Date().getFullYear();
 
+                // Fade out preloader and remove no-scroll class from body
                 setTimeout(() => {
                     preloader.style.opacity = '0';
-                    
-                    setTimeout(() => {
+                    preloader.addEventListener('transitionend', () => {
                         preloader.style.display = 'none';
                         body.classList.remove('no-scroll');
+                        // Trigger animations after preloader is gone
+                        animatePageElements();
+                    }, { once: true });
+                }, 500); // Slight delay for preloader animation to be noticeable
 
-                        const elementsToAnimate = [
-                            { el: document.querySelector('header'), cls: 'header-active' },
-                            { el: document.querySelector('.page-title-banner'), cls: 'content-active' },
-                            { el: document.querySelector('.methodology-section'), cls: 'content-active' },
-                            ...Array.from(document.querySelectorAll('.media-container-video')).map(el => ({ el, cls: 'content-active' })),
-                            { el: document.querySelector('.training-section'), cls: 'content-active' },
-                            { el: document.querySelector('.fixed-action-btn'), cls: 'fixed-btn-active' },
-                            { el: document.querySelector('footer'), cls: 'footer-active' }
-                        ];
+                // Handle video errors (for external video URLs that might fail)
+                document.querySelectorAll('video').forEach(video => {
+                    video.addEventListener('error', function() {
+                        this.style.display = 'none';
+                        this.nextElementSibling.style.display = 'block'; // Show fallback text
+                    });
+                });
 
-                        let delay = 0;
-                        elementsToAnimate.forEach(item => {
-                            if (item.el) {
-                                setTimeout(() => item.el.classList.add(item.cls), delay);
-                                delay += 150;
-                            }
-                        });
-                    }, 700);
-                }, 1000);
+                // Handle image errors (for external image URLs that might fail)
+                document.querySelectorAll('.image-gallery img').forEach(img => {
+                    img.addEventListener('error', function() {
+                        this.onerror = null; // Prevent infinite loops
+                        this.src = this.getAttribute('onerror').match(/this\.src='([^']*)'/)[1]; // Extract fallback src
+                        this.style.objectFit = 'contain'; // Adjust object-fit for placeholder text
+                        this.style.backgroundColor = '#e5e7eb'; // Add a background for the placeholder
+                    });
+                });
             };
-            
-            // Run initialization
+
+            const animatePageElements = () => {
+                // Header animation with a small delay
+                const header = document.querySelector('header');
+                if (header) {
+                    setTimeout(() => header.classList.add('header-active'), 100);
+                }
+
+                // Section animations with staggered delays
+                const sections = document.querySelectorAll('.page-title-banner, .methodology-section, .media-container-video, .training-section, footer');
+                sections.forEach((section, index) => {
+                    setTimeout(() => section.classList.add('content-active'), 300 + index * 150); // Staggered reveal
+                });
+
+                // Fixed action buttons animation
+                const fixedActionBtn = document.querySelector('.fixed-action-btn');
+                if (fixedActionBtn) {
+                    setTimeout(() => fixedActionBtn.classList.add('fixed-btn-active'), 800); // Appear after content
+                }
+            };
+
+            // Initialize the page once DOM is ready
             initPage();
-            handleScrollButtons();
         });
     </script>
 </body>
